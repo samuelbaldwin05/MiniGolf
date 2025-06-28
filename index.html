@@ -14,13 +14,54 @@
                 <h1>🏌️ Golf Game</h1>
                 <p>Pass and play golf with course design!</p>
                 
-                <div class="settings-panel">
+                <!-- Game Mode Selection -->
+                <div class="game-mode-selection">
+                    <h3>Select Game Mode:</h3>
+                    <div class="mode-options">
+                        <div class="mode-option active" id="custom-mode">
+                            <div class="mode-icon">🎨</div>
+                            <div class="mode-info">
+                                <h4>Custom Course Builder</h4>
+                                <p>Design your own courses and play them with friends</p>
+                            </div>
+                        </div>
+                        <div class="mode-option" id="premade-mode">
+                            <div class="mode-icon">🏆</div>
+                            <div class="mode-info">
+                                <h4>Premade Courses</h4>
+                                <p>Play through expertly designed courses</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Custom Mode Settings (shown by default) -->
+                <div id="custom-settings" class="settings-panel">
                     <div class="setting-item">
                         <label for="hole-count">Number of Holes:</label>
                         <select id="hole-count" class="setting-select">
                             <option value="2">2 Holes</option>
                             <option value="4" selected>4 Holes</option>
                             <option value="8">8 Holes</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Premade Mode Settings (hidden by default) -->
+                <div id="premade-settings" class="settings-panel" style="display: none;">
+                    <div class="setting-item">
+                        <label for="course-select">Select Course:</label>
+                        <select id="course-select" class="setting-select">
+                            <option value="beginner">Beginner Course (3 holes)</option>
+                            <option value="intermediate">Intermediate Course (5 holes)</option>
+                            <option value="advanced">Advanced Course (7 holes)</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label for="player-mode">Player Mode:</label>
+                        <select id="player-mode" class="setting-select">
+                            <option value="single">Single Player</option>
+                            <option value="multiplayer" selected>Multiplayer</option>
                         </select>
                     </div>
                 </div>
