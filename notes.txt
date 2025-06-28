@@ -1,0 +1,19 @@
+FUTURE FIXES (minor things that can be changed letter)
+
+Ugly menu screen, and is different for when a game ends than when the app is first loaded
+
+On build reset, everything resets except ball (all or nothing)
+
+Expandable score sheet with all hole scores
+
+Improve score sheet look
+
+Slope ground (might be easier to thing about this like a speed boost in one direction that an actual ramp)
+
+Different shaped course
+
+Design on a grid, draw mode? Build timer
+
+Win screen
+
+Sound effects

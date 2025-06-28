@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Golf Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="simple-container">
+        <!-- Start Screen -->
+        <div id="start-screen" class="start-screen flex-center">
+            <div class="start-content">
+                <h1>🏌️ Golf Game</h1>
+                <p>Pass and play golf with course design!</p>
+                
+                <div class="settings-panel">
+                    <div class="setting-item">
+                        <label for="hole-count">Number of Holes:</label>
+                        <select id="hole-count" class="setting-select">
+                            <option value="2">2 Holes</option>
+                            <option value="4" selected>4 Holes</option>
+                            <option value="8">8 Holes</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button class="btn action-btn" id="start-game-btn">Start Game</button>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="game-screen" class="game-screen" style="display: none;">
+            <div class="game-area flex flex-gap-lg" style="padding: 20px;">
+                <div class="board-container flex-center">
+                    <canvas id="game-canvas" width="800" height="400"></canvas>
+                </div>
+                
+                <div class="sidebar flex-column flex-gap-lg">
+                    <!-- Score Sheet -->
+                    <div class="panel score-sheet">
+                        <h3>Score Sheet</h3>
+                        <div class="score-table">
+                            <div class="score-header">
+                                <span class="hole-label">Hole <span id="current-hole">1</span></span>
+                                <span class="total-label">Total</span>
+                            </div>
+                            <div class="score-row">
+                                <span class="player-label player1-color">Player 1</span>
+                                <span class="hole-score" id="player1-hole-score">0</span>
+                                <span class="total-score" id="player1-total-score">0</span>
+                            </div>
+                            <div class="score-row">
+                                <span class="player-label player2-color">Player 2</span>
+                                <span class="hole-score" id="player2-hole-score">0</span>
+                                <span class="total-score" id="player2-total-score">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="game-buttons flex-column flex-gap-md">
+                        <button class="btn action-btn" id="show-rules-btn">Rules</button>
+                        <button class="btn action-btn" id="show-settings-btn">Settings</button>
+                    </div>
+                    
+                    <div class="message-display" id="message">
+                        Welcome to Golf Game!
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Build Mode Panel -->
+            <div id="build-mode-panel" class="build-mode-panel" style="display: none;">
+                <div class="build-mode-header">
+                    <div class="building-types">
+                        <div class="building-options">
+                            <div class="building-option active" id="wall-option" data-type="wall">
+                                <div class="building-preview wall-preview"></div>
+                                <span>Wall</span>
+                            </div>
+                            <div class="building-option" id="sand-option" data-type="sand">
+                                <div class="building-preview sand-preview"></div>
+                                <span>Sand</span>
+                            </div>
+                            <div class="building-option" id="tall-grass-option" data-type="tallGrass">
+                                <div class="building-preview tall-grass-preview"></div>
+                                <span>Rough</span>
+                            </div>
+                            <div class="building-option" id="water-option" data-type="water">
+                                <div class="building-preview water-preview"></div>
+                                <span>Water</span>
+                            </div>
+                            <div class="building-option" id="ice-option" data-type="ice">
+                                <div class="building-preview ice-preview"></div>
+                                <span>Ice</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="build-controls">
+                        <button class="btn action-btn" id="undo-btn">Undo</button>
+                        <button class="btn action-btn delete-btn" id="delete-btn">Delete</button>
+                        <button class="btn action-btn done-building-btn" id="done-building-btn">Done</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Win Screen -->
+        <div id="win-screen" class="win-screen flex-center" style="display: none;">
+            <div class="win-content">
+                <h2 id="winner-title">🏆 Game Complete!</h2>
+                <div class="final-scores">
+                    <div class="final-score">
+                        <span class="player-label player1-color">Player 1 (Blue):</span>
+                        <span class="score-number" id="final-player1-score">0</span>
+                    </div>
+                    <div class="final-score">
+                        <span class="player-label player2-color">Player 2 (Red):</span>
+                        <span class="score-number" id="final-player2-score">0</span>
+                    </div>
+                </div>
+                <div id="winner-message" class="winner-message">
+                    <h3 id="winner-text">It's a tie!</h3>
+                </div>
+                <button class="btn action-btn" id="play-again-btn">Play Again</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rules Modal -->
+    <div id="rules-modal" class="modal flex-center" style="display: none;">
+        <div class="modal-content">
+            <span class="close-btn" id="close-rules">&times;</span>
+            <h2>🏌️ Golf Game Rules</h2>
+            
+            <div class="rules-section">
+                <h3>🎯 Objective</h3>
+                <p>Complete all holes with the lowest total score. Players take turns designing and playing holes.</p>
+            </div>
+
+            <div class="rules-section">
+                <h3>🎨 Design Phase</h3>
+                <ul>
+                    <li>Each player designs a hole for the other to play</li>
+                    <li>Click anywhere to place walls</li>
+                    <li>Click the hole to move it to a new position</li>
+                    <li>Click the ball to move the starting position</li>
+                    <li>Walls can block the ball's path</li>
+                </ul>
+            </div>
+
+            <div class="rules-section">
+                <h3>⛳ Play Phase</h3>
+                <ul>
+                    <li>Click and drag the ball to shoot</li>
+                    <li>Arrow shows direction and power</li>
+                    <li>Ball bounces off walls and boundaries</li>
+                    <li>Get the ball in the hole to complete the hole</li>
+                    <li>Count your shots - lower is better!</li>
+                </ul>
+            </div>
+
+            <div class="rules-section">
+                <h3>🏆 Scoring</h3>
+                <ul>
+                    <li>Each shot counts as 1 point</li>
+                    <li>Player with lowest total score wins</li>
+                    <li>If tied, it's a draw!</li>
+                </ul>
+            </div>
+
+            <button class="btn action-btn" id="close-rules-btn">Got it!</button>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal flex-center" style="display: none;">
+        <div class="modal-content">
+            <span class="close-btn" id="close-settings">&times;</span>
+            <h2>⚙️ Settings</h2>
+            
+            <div class="settings-section">
+                <h3>🎨 Design Options</h3>
+                <div class="toggle-group">
+                    <label class="toggle-label">
+                        <input type="checkbox" id="ball-movable-toggle" checked>
+                        <span class="toggle-text">Ball Movable</span>
+                    </label>
+                    <label class="toggle-label">
+                        <input type="checkbox" id="hole-movable-toggle" checked>
+                        <span class="toggle-text">Hole Movable</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3>🔄 Restart Round</h3>
+                <p>If you want to restart the current hole, you can do so from here.</p>
+                <button class="btn action-btn" id="restart-round-btn">Restart Round</button>
+            </div>
+
+            <div class="settings-section">
+                <h3>🔧 Developer Options</h3>
+                <div class="toggle-group">
+                    <label class="toggle-label">
+                        <input type="checkbox" id="dev-mode-toggle">
+                        <span class="toggle-text">Dev Mode</span>
+                    </label>
+                </div>
+            </div>
+
+            <button class="btn action-btn" id="close-settings-btn">Save Settings</button>
+        </div>
+    </div>
+
+    <script src="golf.js"></script>
+</body>
+</html> 
