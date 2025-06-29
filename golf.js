@@ -23,32 +23,44 @@ const PREMADE_COURSES = {
         courses: [
             {
                 name: "Hole 1",
-                ballPosition: { x: 50, y: 200 },
+                ballPosition: { x: 91, y: 201 },
                 holePosition: { x: 750, y: 200 },
                 walls: [
-                    { type: 'wall', x: 300, y: 150, width: 20, height: 100, rotation: 0 },
-                    { type: 'sand', x: 400, y: 180, width: 60, height: 40, rotation: 0 }
+                    { type: 'wall', x: 200, y: 200, width: 420, height: 10, rotation: 0 },
+                    { type: 'ice', x: 160, y: 210, width: 525, height: 180, rotation: 0 },
+                    { type: 'water', x: 685, y: 225, width: 105, height: 163, rotation: 0 },
+                    { type: 'tallGrass', x: 160, y: 12, width: 525, height: 190, rotation: 0 },
+                    { type: 'sand', x: 685, y: 15, width: 105, height: 163, rotation: 0 }
                 ]
             },
             {
-                name: "Hole 2", 
-                ballPosition: { x: 50, y: 150 },
-                holePosition: { x: 750, y: 250 },
+                name: "Hole 2",
+                ballPosition: { x: 88, y: 75 },
+                holePosition: { x: 718, y: 67 },
                 walls: [
-                    { type: 'wall', x: 250, y: 100, width: 20, height: 200, rotation: 0 },
-                    { type: 'water', x: 450, y: 150, width: 80, height: 100, rotation: 0 },
-                    { type: 'tallGrass', x: 600, y: 200, width: 40, height: 60, rotation: 0 }
+                    { type: 'wall', x: 127, y: 12, width: 11, height: 265, rotation: 0 },
+                    { type: 'wall', x: 287, y: 200, width: 12, height: 187, rotation: -142.15182766164443 },
+                    { type: 'wall', x: 231, y: 375, width: 13, height: 13, rotation: 0 },
+                    { type: 'sand', x: 12, y: 364, width: 222, height: 24, rotation: 0 },
+                    { type: 'tallGrass', x: 134, y: 11, width: 377, height: 108, rotation: 0 },
+                    { type: 'wall', x: 322, y: 120, width: 189, height: 12, rotation: 0 },
+                    { type: 'water', x: 366, y: 221, width: 422, height: 167, rotation: 0 },
+                    { type: 'wall', x: 356, y: 204, width: 14, height: 185, rotation: 0 }
                 ]
             },
             {
                 name: "Hole 3",
-                ballPosition: { x: 50, y: 200 },
-                holePosition: { x: 750, y: 200 },
+                ballPosition: { x: 48, y: 289 },
+                holePosition: { x: 664, y: 270 },
                 walls: [
-                    { type: 'wall', x: 200, y: 100, width: 20, height: 200, rotation: 0 },
-                    { type: 'wall', x: 400, y: 100, width: 20, height: 200, rotation: 0 },
-                    { type: 'ice', x: 300, y: 150, width: 80, height: 100, rotation: 0 },
-                    { type: 'sand', x: 550, y: 180, width: 60, height: 40, rotation: 0 }
+                    { type: 'wall', x: 367, y: 90, width: 15, height: 298, rotation: 0 },
+                    { type: 'tallGrass', x: 148, y: 212, width: 475, height: 177, rotation: 0 },
+                    { type: 'wall', x: 41, y: 86, width: 218, height: 12, rotation: 0 },
+                    { type: 'ice', x: 40, y: 11, width: 220, height: 74, rotation: 0 },
+                    { type: 'sand', x: 40, y: 98, width: 223, height: 34, rotation: 0 },
+                    { type: 'water', x: 618, y: 321, width: 170, height: 68, rotation: 0 },
+                    { type: 'water', x: 717, y: 209, width: 73, height: 127, rotation: 0 },
+                    { type: 'wall', x: 507, y: 45, width: 283, height: 12, rotation: 16.891695744674493 }
                 ]
             }
         ]
@@ -59,12 +71,15 @@ const PREMADE_COURSES = {
         courses: [
             {
                 name: "Hole 1",
-                ballPosition: { x: 50, y: 200 },
-                holePosition: { x: 750, y: 200 },
+                ballPosition: { x: 324, y: 304 },   
+                holePosition: { x: 692, y: 95 },
                 walls: [
-                    { type: 'wall', x: 250, y: 150, width: 20, height: 100, rotation: 0 },
-                    { type: 'wall', x: 450, y: 150, width: 20, height: 100, rotation: 0 },
-                    { type: 'water', x: 350, y: 180, width: 80, height: 40, rotation: 0 }
+                    { type: "wall", x: 542, y: 32, width: 184, height: 13, rotation: -165.5559642755078 },
+                    { type: "wall", x: 747, y: 56, width: 14, height: 176, rotation: -18.621579366487577 },
+                    { type: "sand", x: 424, y: 215, width: 364, height: 174, rotation: 0 },
+                    { type: "wall", x: 409, y: 214, width: 14, height: 175, rotation: 0 },
+                    { type: "tallGrass", x: 11, y: 11, width: 261, height: 140, rotation: 0 },
+                    { type: "wall", x: 273, y: 10, width: 125, height: 174, rotation: 0 }
                 ]
             },
             {
@@ -305,19 +320,14 @@ class Ball {
                 if (gameInstance) {
                     const waterCheck = gameInstance.checkIfBallOverWater();
                     if (waterCheck.isOverWater) {
-                        // Ball stopped over water - set waiting flag and move back after 1 second
-                        this.isWaitingForWaterCheck = true;
-                        setTimeout(() => {
-                            this.position = new Vector2D(this.endPosition.x, this.endPosition.y);
-                            this.isWaitingForWaterCheck = false;
-                            gameInstance.showMessage("Ball went in water! Returning to previous position.");
-                            console.log(`💧 Ball returned to previous position: (${Math.round(this.endPosition.x)}, ${Math.round(this.endPosition.y)})`);
-                        }, 1000);
+                        // Ball stopped over water - move it back to previous position
+                        this.position = new Vector2D(this.endPosition.x, this.endPosition.y);
+                        gameInstance.showMessage("Ball went in water! Returning to previous position.");
                     } else {
                         // Ball stopped in a safe position - update end position
                         this.endPosition = new Vector2D(this.position.x, this.position.y);
-                        console.log(`🎯 Ball ended at position: (${Math.round(this.endPosition.x)}, ${Math.round(this.endPosition.y)})`);
                     }
+                    this.isWaitingForWaterCheck = false; // Clear waiting flag after water check
                 } else {
                     // No game instance - just update end position
                     this.endPosition = new Vector2D(this.position.x, this.position.y);
@@ -368,8 +378,54 @@ class Ball {
 
     // Method to check collisions during sub-stepping (called from game instance)
     checkCollisionsForStep() {
-        // This will be called from the game instance
-        // The actual collision logic is in the game's checkCollisions method
+        // Skip collision detection in build mode to prevent ball movement
+        if (this.currentPhase === PHASES.DESIGN) {
+            return;
+        }
+        
+        // Check boundary collisions with improved detection
+        for (let wall of this.boundaryWalls) {
+            if (wall.intersects(this.ball)) {
+                this.resolveCollision(wall);
+            }
+        }
+        
+        // Check building collisions - only check the topmost building at each position (same as main checkCollisions)
+        let topmostBuilding = null;
+        let highestZIndex = -1;
+        
+        for (let building of this.walls) {
+            if (building.intersects(this.ball)) {
+                if (building.zIndex > highestZIndex) {
+                    highestZIndex = building.zIndex;
+                    topmostBuilding = building;
+                }
+            }
+        }
+        
+        // Only resolve collision with the topmost building
+        if (topmostBuilding) {
+            if (topmostBuilding.type === 'wall') {
+                this.resolveCollision(topmostBuilding);
+            } else if (topmostBuilding.type === 'sand') {
+                this.resolveSandCollision(topmostBuilding);
+            } else if (topmostBuilding.type === 'tallGrass') {
+                this.resolveTallGrassCollision(topmostBuilding);
+            } else if (topmostBuilding.type === 'water') {
+                this.resolveWaterCollision(topmostBuilding);
+            } else if (topmostBuilding.type === 'ice') {
+                this.resolveIceCollision(topmostBuilding);
+            }
+        } else {
+            // Reset to normal friction if not on any terrain
+            this.ball.currentFriction = FRICTION;
+        }
+
+        // Check if ball is out of bounds
+        if (this.ball.isOutOfBounds() && !this.ball.isInHole) {
+            this.ball.respawn();
+            this.showMessage("Ball out of bounds! Respawned.");
+        }
     }
 }
 
@@ -1710,24 +1766,79 @@ class GolfGame {
         this.updateBallColor();
     }
 
+    generateCourseJSON() {
+        // Generate the current hole data only
+        const currentHoleData = {
+            name: `Hole ${this.currentHole}`,
+            ballPosition: { 
+                x: Math.round(this.spawnPosition.x), 
+                y: Math.round(this.spawnPosition.y) 
+            },
+            holePosition: { 
+                x: Math.round(this.hole.position.x), 
+                y: Math.round(this.hole.position.y) 
+            },
+            walls: []
+        };
+
+        // Convert all buildings to the JSON format
+        for (let building of this.walls) {
+            const wallData = {
+                type: building.type,
+                x: Math.round(building.x),
+                y: Math.round(building.y),
+                width: Math.round(building.width),
+                height: Math.round(building.height),
+                rotation: building.rotation || 0
+            };
+            currentHoleData.walls.push(wallData);
+        }
+
+        // Log the hole data in a single line for easy copy-pasting
+        console.log('🎨 Custom Hole JSON:');
+        
+        let wallsString = '';
+        for (let i = 0; i < currentHoleData.walls.length; i++) {
+            const wall = currentHoleData.walls[i];
+            const comma = i < currentHoleData.walls.length - 1 ? ',' : '';
+            wallsString += `{ type: "${wall.type}", x: ${wall.x}, y: ${wall.y}, width: ${wall.width}, height: ${wall.height}, rotation: ${wall.rotation} }${comma}`;
+        }
+        
+        console.log(`{ name: ${currentHoleData.name}, ballPosition: { x: ${currentHoleData.ballPosition.x}, y: ${currentHoleData.ballPosition.y} }, holePosition: { x: ${currentHoleData.holePosition.x}, y: ${currentHoleData.holePosition.y} }, walls: [${wallsString}] }`);
+        
+        return currentHoleData;
+    }
+
     nextPhase() {
         if (this.gameMode === 'premade') {
-            // For premade courses, just check if both players have played
-            if (this.player1HoleScore > 0 && this.player2HoleScore > 0) {
-                // Add hole scores to total scores
+            if (this.playerMode === 'single') {
+                // Single player mode - add hole score to total and move to next hole
                 this.player1Score += this.player1HoleScore;
-                this.player2Score += this.player2HoleScore;
-                
-                // Move to next hole or end game
                 this.currentHole++;
                 if (this.currentHole > this.totalHoles) {
                     this.endGame();
                     return;
                 }
-                
-                // Load next hole
                 this.loadPremadeHole();
                 this.showMessage(`Playing ${PREMADE_COURSES[this.selectedCourse].name} - Hole ${this.currentHole}`);
+            } else {
+                // Multiplayer premade mode - check if both players have played
+                if (this.player1HoleScore > 0 && this.player2HoleScore > 0) {
+                    // Add hole scores to total scores
+                    this.player1Score += this.player1HoleScore;
+                    this.player2Score += this.player2HoleScore;
+                    
+                    // Move to next hole or end game
+                    this.currentHole++;
+                    if (this.currentHole > this.totalHoles) {
+                        this.endGame();
+                        return;
+                    }
+                    
+                    // Load next hole
+                    this.loadPremadeHole();
+                    this.showMessage(`Playing ${PREMADE_COURSES[this.selectedCourse].name} - Hole ${this.currentHole}`);
+                }
             }
         } else {
             // Original custom mode logic
@@ -1736,6 +1847,9 @@ class GolfGame {
                 this.ball.reset(this.ball.position.x, this.ball.position.y);
                 this.player1HoleScore = 0;
                 this.player2HoleScore = 0;
+                
+                // Generate course JSON when done building
+                this.generateCourseJSON();
                 
                 // Clear selection and hide rotation handle
                 this.selectedBuilding = null;
@@ -1813,7 +1927,10 @@ class GolfGame {
         
         // Determine winner
         let winnerText = '';
-        if (this.player1Score < this.player2Score) {
+        if (this.gameMode === 'premade' && this.playerMode === 'single') {
+            // Single player mode - just show completion
+            winnerText = `Course Complete! Final Score: ${this.player1Score}`;
+        } else if (this.player1Score < this.player2Score) {
             winnerText = 'Player 1 (Blue) wins! 🏆';
         } else if (this.player2Score < this.player1Score) {
             winnerText = 'Player 2 (Red) wins! 🏆';
@@ -2033,12 +2150,10 @@ class GolfGame {
                 }
             }
         } else if (this.isBuilding) {
-            console.log("Updating building preview");
             const rect = this.canvas.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
             this.buildEnd = new Vector2D(x, y);
-            console.log("buildEnd updated to:", x, y);
         } else if (this.isMovingBuilding && this.movingBuilding) {
             const canvasRect = this.canvas.getBoundingClientRect();
             const mouseX = e.clientX - canvasRect.left;
@@ -2280,7 +2395,6 @@ class GolfGame {
     shootBall(velocity) {
         // Store the ball's current position before taking the shot
         this.ball.lastPosition = new Vector2D(this.ball.position.x, this.ball.position.y);
-        console.log(`🏌️ Shot taken from position: (${Math.round(this.ball.lastPosition.x)}, ${Math.round(this.ball.lastPosition.y)})`);
         
         this.ball.velocity = velocity;
         this.ball.isMoving = true;
@@ -2289,29 +2403,28 @@ class GolfGame {
             // Single player mode - just increment player 1 score
             this.player1HoleScore++;
         } else if (this.gameMode === 'premade' && this.playerMode === 'multiplayer') {
-            // Multiplayer premade mode - check if both players have played
-            if (this.player1HoleScore > 0 && this.player2HoleScore > 0) {
-                this.showMessage(`Hole ${this.currentHole} complete!`);
-                // Automatically move to next hole after confetti and delay
-                setTimeout(() => {
-                    this.nextPhase();
-                }, 2000);
+            // Multiplayer premade mode - determine which player is shooting based on ball color
+            let shootingPlayer;
+            if (this.ball.color === '#4169E1') {
+                // Blue ball = Player 1
+                shootingPlayer = 1;
+            } else if (this.ball.color === '#DC143C') {
+                // Red ball = Player 2
+                shootingPlayer = 2;
             } else {
-                // First player completed, now second player gets their turn
-                const completingPlayer = this.player1HoleScore > 0 ? 1 : 2;
-                const nextPlayer = completingPlayer === 1 ? 2 : 1;
-                const nextPlayerName = this.getPlayerColor(nextPlayer);
-                this.showMessage(`Player ${completingPlayer} completed hole ${this.currentHole}. Now Player ${nextPlayer} (${nextPlayerName}) gets their turn.`);
-                
-                // Spawn the next player's ball after confetti and delay
-                setTimeout(() => {
-                    this.ball.reset(this.spawnPosition.x, this.spawnPosition.y);
-                    this.updateBallColor();
-                    this.showMessage(`Player ${nextPlayer} (${nextPlayerName}) is now playing.`);
-                }, 2000);
+                // Fallback to current player if color is unexpected
+                shootingPlayer = this.currentPlayer;
+            }
+            
+            // Increment shot counter for the correct player
+            if (shootingPlayer === 1) {
+                this.player1HoleScore++;
+            } else {
+                this.player2HoleScore++;
             }
         } else {
-            // Multiplayer mode - determine which player is shooting based on ball color
+            // Original custom mode multiplayer logic
+            // Determine which player is shooting based on ball color
             let shootingPlayer;
             if (this.ball.color === '#4169E1') {
                 // Blue ball = Player 1
@@ -2395,9 +2508,6 @@ class GolfGame {
             return;
         }
         
-        // Track if ball is on any terrain
-        let ballOnTerrain = false;
-        
         // Check boundary collisions with improved detection
         for (let wall of this.boundaryWalls) {
             if (wall.intersects(this.ball)) {
@@ -2405,26 +2515,34 @@ class GolfGame {
             }
         }
         
-        // Check building collisions (walls, sand, tall grass, water, and ice)
+        // Check building collisions - only check the topmost building at each position (same as main checkCollisions)
+        let topmostBuilding = null;
+        let highestZIndex = -1;
+        
         for (let building of this.walls) {
             if (building.intersects(this.ball)) {
-                ballOnTerrain = true;
-                if (building.type === 'wall') {
-                    this.resolveCollision(building);
-                } else if (building.type === 'sand') {
-                    this.resolveSandCollision(building);
-                } else if (building.type === 'tallGrass') {
-                    this.resolveTallGrassCollision(building);
-                } else if (building.type === 'water') {
-                    this.resolveWaterCollision(building);
-                } else if (building.type === 'ice') {
-                    this.resolveIceCollision(building);
+                if (building.zIndex > highestZIndex) {
+                    highestZIndex = building.zIndex;
+                    topmostBuilding = building;
                 }
             }
         }
         
-        // Reset to normal friction if not on any terrain
-        if (!ballOnTerrain) {
+        // Only resolve collision with the topmost building
+        if (topmostBuilding) {
+            if (topmostBuilding.type === 'wall') {
+                this.resolveCollision(topmostBuilding);
+            } else if (topmostBuilding.type === 'sand') {
+                this.resolveSandCollision(topmostBuilding);
+            } else if (topmostBuilding.type === 'tallGrass') {
+                this.resolveTallGrassCollision(topmostBuilding);
+            } else if (topmostBuilding.type === 'water') {
+                this.resolveWaterCollision(topmostBuilding);
+            } else if (topmostBuilding.type === 'ice') {
+                this.resolveIceCollision(topmostBuilding);
+            }
+        } else {
+            // Reset to normal friction if not on any terrain
             this.ball.currentFriction = FRICTION;
         }
 
@@ -2513,14 +2631,51 @@ class GolfGame {
             
             if (this.gameMode === 'premade' && this.playerMode === 'single') {
                 // Single player mode - just complete the hole
-                this.player1HoleScore = 1; // Single player always gets 1 shot
                 this.showMessage(`Hole ${this.currentHole} complete!`);
                 // Automatically move to next hole after confetti and delay
                 setTimeout(() => {
                     this.nextPhase();
                 }, 2000);
+            } else if (this.gameMode === 'premade' && this.playerMode === 'multiplayer') {
+                // Multiplayer premade mode - same logic as custom mode
+                // Determine which player just completed the hole
+                let completingPlayer;
+                if (this.player1HoleScore > 0 && this.player2HoleScore === 0) {
+                    // Player 1 just completed the hole
+                    completingPlayer = 1;
+                } else if (this.player1HoleScore === 0 && this.player2HoleScore > 0) {
+                    // Player 2 just completed the hole
+                    completingPlayer = 2;
+                } else {
+                    // Both players have played, this shouldn't happen in normal flow
+                    completingPlayer = this.currentPlayer;
+                }
+                
+                const completingPlayerName = this.getPlayerColor(completingPlayer);
+                const shots = completingPlayer === 1 ? this.player1HoleScore : this.player2HoleScore;
+                
+                // Check if both players have completed the hole
+                if (this.player1HoleScore > 0 && this.player2HoleScore > 0) {
+                    this.showMessage(`Hole ${this.currentHole} complete!`);
+                    // Automatically move to next hole after confetti and delay
+                    setTimeout(() => {
+                        this.nextPhase();
+                    }, 2000);
+                } else {
+                    // First player completed, now second player gets their turn
+                    const nextPlayer = completingPlayer === 1 ? 2 : 1;
+                    const nextPlayerName = this.getPlayerColor(nextPlayer);
+                    this.showMessage(`Player ${completingPlayer} (${completingPlayerName}) completed hole ${this.currentHole}. Now Player ${nextPlayer} (${nextPlayerName}) gets their turn.`);
+                    
+                    // Spawn the next player's ball after confetti and delay
+                    setTimeout(() => {
+                        this.ball.reset(this.spawnPosition.x, this.spawnPosition.y);
+                        this.updateBallColor();
+                        this.showMessage(`Player ${nextPlayer} (${nextPlayerName}) is now playing.`);
+                    }, 2000);
+                }
             } else {
-                // Multiplayer mode - original logic
+                // Original custom mode multiplayer logic
                 // Determine which player just completed the hole
                 let completingPlayer;
                 if (this.player1HoleScore > 0 && this.player2HoleScore === 0) {
@@ -2581,15 +2736,24 @@ class GolfGame {
         const player2Total = this.player2Score + this.player2HoleScore;
         if (player1TotalScoreEl) player1TotalScoreEl.textContent = player1Total;
         if (player2TotalScoreEl) player2TotalScoreEl.textContent = player2Total;
+        
+        // Update single player UI if needed
+        if (this.gameMode === 'premade') {
+            this.updateSinglePlayerUI();
+        }
     }
 
     updateBallColor() {
         if (this.currentPhase === PHASES.PLAY) {
             // Determine which player is currently playing based on scores
             let playingPlayer;
-            if (this.player1HoleScore === 0 && this.player2HoleScore === 0) {
-                // No one has completed yet, so the designer plays first
-                playingPlayer = this.currentPlayer;
+            
+            if (this.gameMode === 'premade' && this.playerMode === 'single') {
+                // Single player mode - always player 1
+                playingPlayer = 1;
+            } else if (this.player1HoleScore === 0 && this.player2HoleScore === 0) {
+                // No one has completed yet, so the first player plays
+                playingPlayer = 1;
             } else if (this.player1HoleScore > 0 && this.player2HoleScore === 0) {
                 // Player 1 has completed, so Player 2 is playing now
                 playingPlayer = 2;
@@ -2597,8 +2761,8 @@ class GolfGame {
                 // Player 2 has completed, so Player 1 is playing now
                 playingPlayer = 1;
             } else {
-                // Both have completed, use current player
-                playingPlayer = this.currentPlayer;
+                // Both have completed, this shouldn't happen in normal flow
+                playingPlayer = 1;
             }
             
             this.ball.color = playingPlayer === 1 ? '#4169E1' : '#DC143C';
@@ -3073,14 +3237,21 @@ class GolfGame {
     }
 
     getBuildingAtPosition(x, y) {
+        let topmostBuilding = null;
+        let highestZIndex = -1;
+        
         for (let building of this.walls) {
             const bounds = this.getBuildingBoundingBox(building);
             if (bounds.left <= x && bounds.right >= x &&
                 bounds.top <= y && bounds.bottom >= y) {
-                return building;
+                if (building.zIndex > highestZIndex) {
+                    highestZIndex = building.zIndex;
+                    topmostBuilding = building;
+                }
             }
         }
-        return null;
+        
+        return topmostBuilding;
     }
 
     deleteSelectedBuilding() {
@@ -3218,35 +3389,53 @@ class GolfGame {
     checkIfBallOverWater() {
         const ballCenter = this.ball.position;
         
-        // Check all water buildings
+        // First, check if there's any terrain on top of the ball (respecting layering)
+        let topmostBuilding = null;
+        let highestZIndex = -1;
+        
         for (let building of this.walls) {
-            if (building.type === 'water') {
-                // Calculate how much of the ball is over water
-                const ballLeft = ballCenter.x - this.ball.radius;
-                const ballRight = ballCenter.x + this.ball.radius;
-                const ballTop = ballCenter.y - this.ball.radius;
-                const ballBottom = ballCenter.y + this.ball.radius;
+            if (building.intersects(this.ball)) {
+                if (building.zIndex > highestZIndex) {
+                    highestZIndex = building.zIndex;
+                    topmostBuilding = building;
+                }
+            }
+        }
+        
+        // If there's a building on top that's not water, the ball is not over water
+        if (topmostBuilding && topmostBuilding.type !== 'water') {
+            return { isOverWater: false, water: null };
+        }
+        
+        // If there's water on top, check if the ball is over it
+        if (topmostBuilding && topmostBuilding.type === 'water') {
+            const building = topmostBuilding;
+            
+            // Calculate how much of the ball is over water
+            const ballLeft = ballCenter.x - this.ball.radius;
+            const ballRight = ballCenter.x + this.ball.radius;
+            const ballTop = ballCenter.y - this.ball.radius;
+            const ballBottom = ballCenter.y + this.ball.radius;
+            
+            const waterLeft = building.x;
+            const waterRight = building.x + building.width;
+            const waterTop = building.y;
+            const waterBottom = building.y + building.height;
+            
+            // Calculate overlap area
+            const overlapLeft = Math.max(ballLeft, waterLeft);
+            const overlapRight = Math.min(ballRight, waterRight);
+            const overlapTop = Math.max(ballTop, waterTop);
+            const overlapBottom = Math.min(ballBottom, waterBottom);
+            
+            if (overlapLeft < overlapRight && overlapTop < overlapBottom) {
+                const overlapArea = (overlapRight - overlapLeft) * (overlapBottom - overlapTop);
+                const ballArea = Math.PI * this.ball.radius * this.ball.radius;
+                const overlapPercentage = overlapArea / ballArea;
                 
-                const waterLeft = building.x;
-                const waterRight = building.x + building.width;
-                const waterTop = building.y;
-                const waterBottom = building.y + building.height;
-                
-                // Calculate overlap area
-                const overlapLeft = Math.max(ballLeft, waterLeft);
-                const overlapRight = Math.min(ballRight, waterRight);
-                const overlapTop = Math.max(ballTop, waterTop);
-                const overlapBottom = Math.min(ballBottom, waterBottom);
-                
-                if (overlapLeft < overlapRight && overlapTop < overlapBottom) {
-                    const overlapArea = (overlapRight - overlapLeft) * (overlapBottom - overlapTop);
-                    const ballArea = Math.PI * this.ball.radius * this.ball.radius;
-                    const overlapPercentage = overlapArea / ballArea;
-                    
-                    // If more than 50% of ball is over water, return true
-                    if (overlapPercentage > 0.5) {
-                        return { isOverWater: true, water: building };
-                    }
+                // If more than 50% of ball is over water, return true
+                if (overlapPercentage > 0.5) {
+                    return { isOverWater: true, water: building };
                 }
             }
         }
