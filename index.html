@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Golf Game</title>
+    <title>Putt Duel</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛳</text></svg>">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <!-- Start Screen -->
     <div id="start-screen" class="start-screen flex-center">
         <div class="start-content">
-            <h1>🏌️ Golf Game</h1>
+            <h1>━━━ Putt Duel ━━━</h1>
             
             <!-- Game Mode Selection -->
             <div class="game-mode-selection">
@@ -117,7 +118,7 @@
             <div id="build-mode-panel" class="build-mode-panel" style="display: none;">
                 <div class="build-mode-header">
                     <div class="build-timer" id="build-timer" style="display: none;">
-                        <span>Time Remaining: </span>
+                        <span>Build Time: </span>
                         <span id="timer-display">30</span>
                     </div>
                     <div class="building-types">
@@ -156,7 +157,7 @@
         <!-- Win Screen -->
         <div id="win-screen" class="win-screen flex-center" style="display: none;">
             <div class="win-content">
-                <h2 id="winner-title">🏆 Game Complete!</h2>
+                <h2 id="winner-title">Round Over!</h2>
                 <div class="final-scores">
                     <div class="final-score">
                         <span class="player-label player1-color">Blue:</span>
@@ -230,42 +231,35 @@
             <!-- Face Off Mode Settings -->
             <div id="face-off-settings">
                 <div class="settings-section">
-                    <h3>🎨 Design Options</h3>
-                    <div class="toggle-group">
-                        <label class="toggle-label">
-                            <input type="checkbox" id="ball-movable-toggle" checked>
-                            <span class="toggle-text">Ball Movable</span>
-                        </label>
-                        <label class="toggle-label">
-                            <input type="checkbox" id="hole-movable-toggle" checked>
-                            <span class="toggle-text">Hole Movable</span>
-                        </label>
+                    <h3>🔊 Sound Settings</h3>
+                    <div class="sound-control">
+                        <label for="sound-volume">Sound Volume:</label>
+                        <input type="range" id="sound-volume" class="volume-slider" min="0" max="100" value="70">
+                        <span id="volume-display">70%</span>
                     </div>
                 </div>
 
+
                 <div class="settings-section">
-                    <h3>🔄 Restart Round</h3>
-                    <p>If you want to restart the current hole, you can do so from here.</p>
+                    <h3>🔄 Restart Current Hole</h3>
+                    <p>Impossible or bad hole? Restart to build phase and try again!</p>
                     <button class="btn action-btn" id="restart-round-btn">Restart Round</button>
                 </div>
 
-                <div class="settings-section">
-                    <h3>🔧 Developer Options</h3>
-                    <div class="toggle-group">
-                        <label class="toggle-label">
-                            <input type="checkbox" id="dev-mode-toggle">
-                            <span class="toggle-text">Dev Mode</span>
-                        </label>
-                    </div>
-                </div>
             </div>
 
             <!-- Courses Mode Settings -->
             <div id="courses-settings" style="display: none;">
                 <div class="settings-section">
-                    <h3>🚪 Exit Game</h3>
-                    <p>Return to the main menu. This will end the current game.</p>
+                    <h3>🔊 Sound Settings</h3>
+                    <div class="sound-control">
+                        <label for="sound-volume-courses">Sound Volume:</label>
+                        <input type="range" id="sound-volume-courses" class="volume-slider" min="0" max="100" value="70">
+                        <span id="volume-display-courses">70%</span>
+                    </div>
                 </div>
+
+
             </div>
 
             <div class="settings-buttons">
@@ -281,23 +275,19 @@
     
     <!-- Audio elements for game sounds -->
     <audio id="ball-hit-sound" preload="auto">
-        <source src="static/sounds/ball-hit.mp3" type="audio/mpeg">
-        <source src="static/sounds/ball-hit.wav" type="audio/wav">
+        <source src="static/sounds/puttnew.mp3" type="audio/mpeg">
     </audio>
     
     <audio id="water-splash-sound" preload="auto">
-        <source src="static/sounds/water-splash.mp3" type="audio/mpeg">
-        <source src="static/sounds/water-splash.wav" type="audio/wav">
+        <source src="static/sounds/water.mp3" type="audio/mpeg">
     </audio>
     
     <audio id="hole-success-sound" preload="auto">
-        <source src="static/sounds/hole-success.mp3" type="audio/mpeg">
-        <source src="static/sounds/hole-success.wav" type="audio/wav">
+        <source src="static/sounds/hole.mp3" type="audio/mpeg">
     </audio>
     
     <audio id="button-click-sound" preload="auto">
-        <source src="static/sounds/button-click.mp3" type="audio/mpeg">
-        <source src="static/sounds/button-click.wav" type="audio/wav">
+        <source src="static/sounds/clack.mp3" type="audio/mpeg">
     </audio>
 </body>
 </html> 

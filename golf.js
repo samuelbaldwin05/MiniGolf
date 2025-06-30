@@ -1353,6 +1353,10 @@ class GolfGame {
         this.holeSuccessSound = document.getElementById('hole-success-sound');
         this.buttonClickSound = document.getElementById('button-click-sound');
         
+        // Volume control
+        this.soundVolume = 0.7; // Default 70%
+        this.initializeVolume();
+        
         // Game state
         this.currentState = GAME_STATES.START;
         this.currentPhase = PHASES.DESIGN;
@@ -1430,10 +1434,72 @@ class GolfGame {
         this.gameLoop();
     }
 
+    // Volume control methods
+    initializeVolume() {
+        // Load saved volume from localStorage
+        const savedVolume = localStorage.getItem('golfGameVolume');
+        if (savedVolume !== null) {
+            this.soundVolume = parseFloat(savedVolume);
+        }
+        
+        // Update all audio elements with current volume
+        this.updateAllAudioVolume();
+        
+        // Update volume sliders and displays
+        this.updateVolumeUI();
+    }
+    
+    updateAllAudioVolume() {
+        const audioElements = [
+            this.ballHitSound,
+            this.waterSplashSound,
+            this.holeSuccessSound,
+            this.buttonClickSound
+        ];
+        
+        audioElements.forEach(audio => {
+            if (audio) {
+                audio.volume = this.soundVolume;
+            }
+        });
+    }
+    
+    updateVolumeUI() {
+        // Update face-off mode volume slider
+        const volumeSlider = document.getElementById('sound-volume');
+        const volumeDisplay = document.getElementById('volume-display');
+        if (volumeSlider) {
+            volumeSlider.value = Math.round(this.soundVolume * 100);
+        }
+        if (volumeDisplay) {
+            volumeDisplay.textContent = `${Math.round(this.soundVolume * 100)}%`;
+        }
+        
+        // Update courses mode volume slider
+        const volumeSliderCourses = document.getElementById('sound-volume-courses');
+        const volumeDisplayCourses = document.getElementById('volume-display-courses');
+        if (volumeSliderCourses) {
+            volumeSliderCourses.value = Math.round(this.soundVolume * 100);
+        }
+        if (volumeDisplayCourses) {
+            volumeDisplayCourses.textContent = `${Math.round(this.soundVolume * 100)}%`;
+        }
+    }
+    
+    setVolume(volume) {
+        this.soundVolume = Math.max(0, Math.min(1, volume));
+        this.updateAllAudioVolume();
+        this.updateVolumeUI();
+        
+        // Save to localStorage
+        localStorage.setItem('golfGameVolume', this.soundVolume.toString());
+    }
+
     // Sound methods
     playSound(audioElement) {
-        if (audioElement) {
+        if (audioElement && this.soundVolume > 0) {
             audioElement.currentTime = 0;
+            audioElement.volume = this.soundVolume;
             audioElement.play().catch(e => console.log('Audio play failed:', e));
         }
     }
@@ -1802,6 +1868,31 @@ class GolfGame {
             coursesExitBtn.addEventListener('click', () => {
                 this.exitToMenu();
             });
+        }
+
+        // Sound volume sliders (Face Off and Courses modes)
+        const volumeSlider = document.getElementById('sound-volume');
+        const volumeDisplay = document.getElementById('volume-display');
+        if (volumeSlider) {
+            volumeSlider.addEventListener('input', (e) => {
+                const value = parseInt(e.target.value);
+                this.setVolume(value / 100);
+            });
+        }
+        if (volumeDisplay) {
+            volumeDisplay.textContent = `${Math.round(this.soundVolume * 100)}%`;
+        }
+
+        const volumeSliderCourses = document.getElementById('sound-volume-courses');
+        const volumeDisplayCourses = document.getElementById('volume-display-courses');
+        if (volumeSliderCourses) {
+            volumeSliderCourses.addEventListener('input', (e) => {
+                const value = parseInt(e.target.value);
+                this.setVolume(value / 100);
+            });
+        }
+        if (volumeDisplayCourses) {
+            volumeDisplayCourses.textContent = `${Math.round(this.soundVolume * 100)}%`;
         }
     }
 
@@ -2354,7 +2445,7 @@ class GolfGame {
                     const newHolePos = new Vector2D(x, y);
                     if (!this.holeOverlapsBall(newHolePos, this.ball) && 
                         !this.holeOverlapsBuildings(newHolePos) && 
-                        this.isWithinBoundaries(x - this.hole.radius, y - this.hole.radius, this.hole.radius * 2, this.hole.radius * 2)) {
+                        this.isHoleOrBallWithinBoundaries(x - this.hole.radius, y - this.hole.radius, this.hole.radius * 2, this.hole.radius * 2)) {
                         this.hole.position = newHolePos;
                     }
                 } else if (this.draggingObject === 'ball' && this.ballMovable) {
@@ -2376,7 +2467,7 @@ class GolfGame {
                     
                     if (distance > (this.ball.radius + this.hole.radius) && 
                         !ballOverlapsBuilding && 
-                        this.isWithinBoundaries(x - this.ball.radius, y - this.ball.radius, this.ball.radius * 2, this.ball.radius * 2)) {
+                        this.isHoleOrBallWithinBoundaries(x - this.ball.radius, y - this.ball.radius, this.ball.radius * 2, this.ball.radius * 2)) {
                         this.ball.position = newBallPos;
                         // Update spawn position when ball is moved during design
                         this.spawnPosition = new Vector2D(x, y);
@@ -2409,9 +2500,17 @@ class GolfGame {
             this.movingBuilding.x = newX;
             this.movingBuilding.y = newY;
             
-            // Bring the moved building to the top layer
-            const maxZIndex = this.walls.length > 0 ? Math.max(...this.walls.map(b => b.zIndex)) : -1;
-            this.movingBuilding.zIndex = maxZIndex + 1;
+            // Ensure walls always appear on top of other elements
+            if (this.movingBuilding.type === 'wall') {
+                // Walls get the highest zIndex (always on top)
+                const maxZIndex = this.walls.length > 0 ? Math.max(...this.walls.map(b => b.zIndex)) : 999;
+                this.movingBuilding.zIndex = maxZIndex + 1;
+            } else {
+                // For non-wall buildings, bring them to the top of their category
+                const sameTypeBuildings = this.walls.filter(b => b.type === this.movingBuilding.type);
+                const maxSameTypeZIndex = sameTypeBuildings.length > 0 ? Math.max(...sameTypeBuildings.map(b => b.zIndex)) : 0;
+                this.movingBuilding.zIndex = maxSameTypeZIndex + 1;
+            }
             
             // Update rotation handle position if building is selected
             if (this.selectedBuilding === this.movingBuilding) {
@@ -2469,7 +2568,7 @@ class GolfGame {
                 };
                 
                 // If there are collisions or out of boundaries, reset to original position
-                if (!this.isWithinBoundaries(tempBuilding.x, tempBuilding.y, tempBuilding.width, tempBuilding.height)) {
+                if (false) { // Removed boundary checking - buildings can extend beyond boundaries
                     this.movingBuilding.x = this.movingBuildingOriginalPosition.x;
                     this.movingBuilding.y = this.movingBuildingOriginalPosition.y;
                     this.movingBuilding.rotation = this.movingBuildingOriginalPosition.rotation;
@@ -2533,7 +2632,7 @@ class GolfGame {
                 };
                 
                 // If there are collisions or out of boundaries, reset to original position
-                if (!this.isWithinBoundaries(tempBuilding.x, tempBuilding.y, tempBuilding.width, tempBuilding.height)) {
+                if (false) { // Removed boundary checking - buildings can extend beyond boundaries
                     this.movingBuilding.x = this.movingBuildingOriginalPosition.x;
                     this.movingBuilding.y = this.movingBuildingOriginalPosition.y;
                     this.movingBuilding.rotation = this.movingBuildingOriginalPosition.rotation;
@@ -2627,6 +2726,11 @@ class GolfGame {
     }
 
     shootBall(velocity) {
+        // Only count a stroke if the velocity is significant
+        if (!velocity || velocity.magnitude() < MIN_VELOCITY) {
+            // Do not count as a stroke, do not move the ball
+            return;
+        }
         // Store the ball's current position before taking the shot
         this.ball.lastPosition = new Vector2D(this.ball.position.x, this.ball.position.y);
         
@@ -3028,22 +3132,17 @@ class GolfGame {
         this.ctx.fillStyle = '#a2d149'; // Light green grass color
         this.ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         
-        // Draw boundary walls
-        for (let wall of this.boundaryWalls) {
-            wall.draw(this.ctx);
+        // Draw terrain first (water, sand, tall grass, ice)
+        const terrainBuildings = this.walls.filter(building => building.type !== 'wall');
+        const sortedTerrain = [...terrainBuildings].sort((a, b) => a.zIndex - b.zIndex);
+        for (let building of sortedTerrain) {
+            building.draw(this.ctx);
         }
         
-        // Draw placed buildings (walls and water)
-        // Sort buildings by zIndex and type to ensure proper layering
-        const sortedBuildings = [...this.walls].sort((a, b) => {
-            // First sort by type: terrain first, then walls
-            if (a.type !== 'wall' && b.type === 'wall') return -1;
-            if (a.type === 'wall' && b.type !== 'wall') return 1;
-            // Then sort by zIndex within each type
-            return a.zIndex - b.zIndex;
-        });
-        
-        for (let building of sortedBuildings) {
+        // Draw placed walls above terrain but below boundary walls
+        const wallBuildings = this.walls.filter(building => building.type === 'wall');
+        const sortedWalls = [...wallBuildings].sort((a, b) => a.zIndex - b.zIndex);
+        for (let building of sortedWalls) {
             building.draw(this.ctx);
             
             // Draw selection highlight if this building is selected
@@ -3071,6 +3170,11 @@ class GolfGame {
             }
         }
         
+        // Draw boundary walls above everything except UI elements
+        for (let wall of this.boundaryWalls) {
+            wall.draw(this.ctx);
+        }
+        
         // Draw building preview if building
         if (this.isBuilding && this.currentPhase === PHASES.DESIGN) {
             this.drawBuildingPreview();
@@ -3085,7 +3189,7 @@ class GolfGame {
         // Draw confetti
         this.drawConfetti();
         
-        // Draw trajectory if dragging (draw last to ensure it's on top)
+        // Draw trajectory if dragging (draw last to ensure it's on top of everything)
         if (this.showTrajectory && this.isDragging) {
             this.drawTrajectory();
         }
@@ -3205,7 +3309,7 @@ class GolfGame {
             // Save context state
             this.ctx.save();
             
-            // Set blend mode to ensure dots are visible
+            // Set blend mode to ensure dots are visible above everything
             this.ctx.globalCompositeOperation = 'source-over';
             this.ctx.globalAlpha = 1.0;
             
@@ -3232,9 +3336,13 @@ class GolfGame {
             
             // Show power level number only in dev mode
             if (this.devMode) {
+                this.ctx.save();
+                this.ctx.globalCompositeOperation = 'source-over';
+                this.ctx.globalAlpha = 1.0;
                 this.ctx.fillStyle = '#FF0000';
                 this.ctx.font = '20px Arial';
                 this.ctx.fillText(`Power Level: ${Math.round(power * 100)}`, 10, 30);
+                this.ctx.restore();
             }
         }
     }
@@ -3520,6 +3628,16 @@ class GolfGame {
 
     isWithinBoundaries(x, y, width = 0, height = 0) {
         // Account for boundary wall thickness
+        return (
+            x >= WALL_THICKNESS &&
+            y >= WALL_THICKNESS &&
+            x + width <= CANVAS_WIDTH - WALL_THICKNESS &&
+            y + height <= CANVAS_HEIGHT - WALL_THICKNESS
+        );
+    }
+
+    isHoleOrBallWithinBoundaries(x, y, width = 0, height = 0) {
+        // Only hole and ball need to stay within boundaries
         return (
             x >= WALL_THICKNESS &&
             y >= WALL_THICKNESS &&
