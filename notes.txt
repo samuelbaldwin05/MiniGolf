@@ -1,3 +1,11 @@
+BUGS
+
+Restart round button in free play should not exist, sends to build mode
+
+Weird scoreboard in multiplayer
+
+
+
 FUTURE FIXES (minor things that can be changed letter)
 
 Ugly menu screen, and is different for when a game ends than when the app is first loaded
@@ -17,3 +25,9 @@ Design on a grid, draw mode? Build timer
 Win screen
 
 Sound effects
+
+More than 2 players on multiplayer
+
+Choose your own number of holes in head to head
+
+Have the outside walls act walls in that terrain can be put under it

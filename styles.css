@@ -48,6 +48,161 @@
     --arrow-color: #FFD700;
     --trail-color: rgba(255, 215, 0, 0.3);
     
+    /* Start Screen Colors */
+    --start-screen-bg: var(--primary-bg);
+    --start-content-bg: #d3841e;
+    --start-content-bg-image: url('static/images/wood-background.jpg');
+    --start-content-shadow: rgba(0, 0, 0, 0.3);
+    
+    /* Mode Selection Colors */
+    --mode-option-bg: var(--ui-accent);
+    --mode-option-border: var(--ui-brown-dark);
+    --mode-option-hover-bg: var(--ui-brown-dark);
+    --mode-option-hover-border: var(--ui-brown-dark);
+    --mode-option-active-border: var(--text-primary);
+    --mode-option-active-bg: var(--ui-accent);
+    
+    /* Settings Panel Colors */
+    --settings-panel-bg: var(--ui-accent);
+    --settings-panel-border: var(--ui-brown-dark);
+    
+    /* Input Colors */
+    --input-bg: var(--secondary-bg);
+    --input-border: var(--ui-accent);
+    --input-text: var(--text-primary);
+    --input-focus-border: var(--text-primary);
+    --input-focus-shadow: rgba(245, 222, 179, 0.3);
+    
+    /* Spinner Arrow Colors */
+    --spinner-arrow-bg: transparent;
+    --spinner-arrow-border: none;
+    --spinner-arrow-hover-bg: rgba(205, 133, 63, 0.3);
+    
+    /* Checkbox Colors */
+    --checkbox-accent: var(--ui-accent);
+    
+    /* Timer Colors */
+    --build-timer-bg: var(--secondary-bg);
+    --build-timer-border: var(--ui-accent);
+    --build-timer-text: var(--text-primary);
+    --build-timer-warning-border: #FF6B6B;
+    --build-timer-warning-text: #FF6B6B;
+    
+    /* Game Area Colors */
+    --game-area-bg: var(--tertiary-bg);
+    --canvas-border: var(--board-bg);
+    --canvas-bg: var(--cell-bg);
+    
+    /* Panel Colors */
+    --panel-bg: var(--tertiary-bg);
+    --panel-shadow: rgba(0, 0, 0, 0.2);
+    
+    /* Score Colors */
+    --score-bg: var(--secondary-bg);
+    
+    /* Button Colors */
+    --btn-action-bg: var(--ui-accent);
+    --btn-action-text: var(--text-primary);
+    --btn-action-border: var(--ui-brown-dark);
+    --btn-action-hover-bg: var(--ui-brown-dark);
+    --btn-action-disabled-opacity: 0.6;
+    --btn-hover-shadow: rgba(0, 0, 0, 0.3);
+    
+    /* Message Display Colors */
+    --message-display-bg: var(--secondary-bg);
+    --message-display-text: var(--text-primary);
+    
+    /* Win Screen Colors */
+    --win-screen-bg: var(--primary-bg);
+    --win-content-bg: var(--secondary-bg);
+    --win-content-shadow: rgba(0, 0, 0, 0.3);
+    
+    /* Modal Colors */
+    --modal-bg: #fff;
+    --modal-overlay: rgba(0, 0, 0, 0.5);
+    --modal-content-bg: #fff;
+    --modal-content-shadow: rgba(0, 0, 0, 0.3);
+    --modal-border: #e0e0e0;
+    --close-btn-bg: #f1f1f1;
+    --close-btn-hover-bg: #bbb;
+    --close-btn-text: #aaa;
+    --close-btn-hover-text: #000;
+    
+    /* Rules Section Colors */
+    --rules-section-text: var(--text-dark);
+    
+    /* Building Preview Colors */
+    --preview-wall-valid: #8B4513;
+    --preview-wall-invalid: #FF0000;
+    --preview-wall-border-valid: #654321;
+    --preview-wall-border-invalid: #CC0000;
+    
+    --preview-sand-gradient-1: #F4D03F;
+    --preview-sand-gradient-2: #F7DC6F;
+    --preview-sand-gradient-3: #F8C471;
+    --preview-sand-invalid-1: #FF6666;
+    --preview-sand-invalid-2: #FF8888;
+    --preview-sand-invalid-3: #FFAAAA;
+    
+    --preview-tall-grass-gradient-1: #2E8B57;
+    --preview-tall-grass-gradient-2: #3CB371;
+    --preview-tall-grass-gradient-3: #228B22;
+    --preview-tall-grass-invalid-1: #FF6666;
+    --preview-tall-grass-invalid-2: #FF8888;
+    --preview-tall-grass-invalid-3: #FFAAAA;
+    
+    --preview-water-gradient-1: #1E90FF;
+    --preview-water-gradient-2: #00BFFF;
+    --preview-water-gradient-3: #87CEEB;
+    --preview-water-invalid-1: #FF6666;
+    --preview-water-invalid-2: #FF8888;
+    --preview-water-invalid-3: #FFAAAA;
+    
+    --preview-ice-gradient-1: #E0F6FF;
+    --preview-ice-gradient-2: #F0F8FF;
+    --preview-ice-gradient-3: #E6F3FF;
+    --preview-ice-invalid-1: #FF6666;
+    --preview-ice-invalid-2: #FF8888;
+    --preview-ice-invalid-3: #FFAAAA;
+    
+    /* Building Selection Colors */
+    --building-option-bg: var(--secondary-bg);
+    --building-option-border: var(--ui-accent);
+    --building-option-hover-bg: rgba(205, 133, 63, 0.2);
+    --building-option-active-border: var(--text-primary);
+    --building-option-active-bg: var(--secondary-bg);
+    
+    /* Building Preview Colors */
+    --wall-preview-bg: #8B4513;
+    --sand-preview-bg: #F4D03F;
+    --tall-grass-preview-bg: #2E8B57;
+    --water-preview-bg: #1E90FF;
+    --ice-preview-bg: #E0F6FF;
+    
+    /* Settings Section Colors */
+    --settings-section-bg: var(--secondary-bg);
+    --settings-section-border: var(--ui-accent);
+    
+    /* Exit Button Colors */
+    --exit-btn-bg: #DC143C;
+    --exit-btn-hover-bg: #B22222;
+    --exit-btn-text: #fff;
+    
+    /* Rotation Handle Colors */
+    --rotation-handle-bg: #FFD700;
+    --rotation-handle-hover-bg: #FFA500;
+    --rotation-line-color: #FFD700;
+    
+    /* Confetti Colors */
+    --confetti-color-1: #FF6B6B;
+    --confetti-color-2: #4ECDC4;
+    --confetti-color-3: #45B7D1;
+    --confetti-color-4: #96CEB4;
+    --confetti-color-5: #FFEAA7;
+    --confetti-color-6: #DDA0DD;
+    --confetti-color-7: #98D8C8;
+    --confetti-color-8: #F7DC6F;
+    
     /* Sizes */
     --border-radius: 8px;
     --border-radius-small: 4px;
@@ -99,11 +254,13 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
     background: var(--primary-bg);
-    min-height: 100vh;
-    padding: 20px;
     color: var(--text-primary);
+    overflow: hidden;
+    min-height: 100vh;
 }
 
 /* Layout */
@@ -118,16 +275,26 @@ body {
 
 /* Start Screen */
 .start-screen {
-    min-height: 80vh;
-    background: var(--secondary-bg);
+    min-height: 100vh;
+    background: var(--start-screen-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .start-content {
-    text-align: center;
+    background: var(--start-content-bg);
+    background-image: var(--start-content-bg-image);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     padding: 40px;
-    background: var(--tertiary-bg);
     border-radius: var(--border-radius);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 32px var(--start-content-shadow);
+    text-align: center;
+    max-width: 700px;
+    width: 90%;
+    margin: 0 auto;
 }
 
 .start-content h1 {
@@ -162,8 +329,8 @@ body {
 .mode-option {
     flex: 1;
     padding: 20px;
-    background: var(--secondary-bg);
-    border: 2px solid var(--ui-accent);
+    background: var(--ui-accent);
+    border: 2px solid var(--ui-brown-dark);
     border-radius: var(--border-radius);
     cursor: pointer;
     transition: all 0.3s ease;
@@ -173,15 +340,14 @@ body {
 }
 
 .mode-option:hover {
-    background: var(--tertiary-bg);
-    border-color: var(--text-primary);
+    border-color: var(--ui-brown-dark);
+    background: var(--ui-brown-dark);
     transform: translateY(-2px);
 }
 
 .mode-option.active {
-    background: var(--tertiary-bg);
-    border-color: var(--text-primary);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border: 2px solid var(--text-primary);
+    background: var(--ui-accent);
 }
 
 .mode-icon {
@@ -205,7 +371,8 @@ body {
 .settings-panel {
     margin: 30px 0;
     padding: 20px;
-    background: var(--secondary-bg);
+    background: var(--ui-accent);
+    border: 2px solid var(--ui-brown-dark);
     border-radius: var(--border-radius);
 }
 
@@ -214,20 +381,106 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
+    gap: 15px;
 }
 
 .setting-item label {
-    font-size: 1.1rem;
+    font-weight: bold;
     color: var(--text-primary);
+    flex-shrink: 0;
 }
 
 .setting-select {
+    width: 185px;
     padding: 8px 12px;
-    border: 2px solid var(--ui-accent);
+    border: 1px solid var(--ui-accent);
     border-radius: var(--border-radius-small);
-    background: var(--modal-bg);
-    color: var(--text-dark);
+    background: var(--secondary-bg);
+    color: var(--text-primary);
     font-size: 1rem;
+}
+
+.setting-input {
+    width: 80px;
+    padding: 8px 12px;
+    border: 1px solid var(--ui-accent);
+    border-radius: var(--border-radius-small);
+    background: var(--secondary-bg);
+    color: var(--text-primary);
+    font-size: 1rem;
+    text-align: center;
+}
+
+.setting-input:focus {
+    outline: none;
+    border-color: var(--text-primary);
+    box-shadow: 0 0 0 2px rgba(245, 222, 179, 0.3);
+}
+
+/* Style spinner arrows for number inputs */
+.setting-input::-webkit-outer-spin-button,
+.setting-input::-webkit-inner-spin-button {
+    opacity: 1;
+    height: 20px;
+    background: transparent;
+    border: none;
+    border-radius: 3px;
+    margin-right: 2px;
+    cursor: pointer;
+}
+
+.setting-input::-webkit-inner-spin-button:hover {
+    background: rgba(205, 133, 63, 0.3);
+}
+
+.setting-input[type=number] {
+    -moz-appearance: auto;
+}
+
+.setting-checkbox {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--ui-accent);
+    cursor: pointer;
+}
+
+.timer-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.timer-controls .setting-input {
+    width: 80px;
+    margin-left: 10px;
+}
+
+.timer-input {
+    width: 80px !important;
+}
+
+.build-timer {
+    background: var(--secondary-bg);
+    padding: 8px 16px;
+    border-radius: var(--border-radius-small);
+    border: 2px solid var(--ui-accent);
+    font-weight: bold;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.build-timer.warning {
+    border-color: #FF6B6B;
+    color: #FF6B6B;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
 }
 
 /* Game Screen */
@@ -456,15 +709,15 @@ body {
 }
 
 .modal-content {
-    background: var(--modal-bg);
-    border-radius: var(--border-radius);
+    background: white;
     padding: 30px;
-    max-width: 600px;
-    width: 90%;
+    border-radius: var(--border-radius);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    width: 500px;
+    position: relative;
     max-height: 80vh;
     overflow-y: auto;
-    position: relative;
-    color: var(--text-dark);
 }
 
 .close-btn {
@@ -722,6 +975,7 @@ body {
     grid-template-columns: 1fr auto auto;
     gap: 10px;
     padding: 8px 0;
+    align-items: center;
     border-bottom: 2px solid var(--ui-accent);
     font-weight: bold;
     color: var(--text-primary);
@@ -780,7 +1034,9 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 15px;
     gap: 20px;
+    flex-wrap: wrap;
 }
 
 .build-controls {
@@ -1011,4 +1267,26 @@ body {
     background: #FFD700;
     z-index: 999;
     transform-origin: left center;
+}
+
+.exit-btn {
+    background: #dc3545;
+    border-color: #dc3545;
+}
+
+.exit-btn:hover {
+    background: #c82333;
+    border-color: #bd2130;
+}
+
+.settings-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.settings-buttons .btn {
+    flex: 1;
+    max-width: 150px;
 } 

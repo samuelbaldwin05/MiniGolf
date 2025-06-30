@@ -26,11 +26,11 @@ const PREMADE_COURSES = {
                 ballPosition: { x: 91, y: 201 },
                 holePosition: { x: 750, y: 200 },
                 walls: [
-                    { type: 'wall', x: 200, y: 200, width: 420, height: 10, rotation: 0 },
                     { type: 'ice', x: 160, y: 210, width: 525, height: 180, rotation: 0 },
                     { type: 'water', x: 685, y: 225, width: 105, height: 163, rotation: 0 },
                     { type: 'tallGrass', x: 160, y: 12, width: 525, height: 190, rotation: 0 },
-                    { type: 'sand', x: 685, y: 15, width: 105, height: 163, rotation: 0 }
+                    { type: 'sand', x: 685, y: 15, width: 105, height: 163, rotation: 0 },
+                    { type: 'wall', x: 200, y: 200, width: 420, height: 10, rotation: 0 }
                 ]
             },
             {
@@ -1347,6 +1347,12 @@ class GolfGame {
         this.canvas = document.getElementById('game-canvas');
         this.ctx = this.canvas.getContext('2d');
         
+        // Audio elements
+        this.ballHitSound = document.getElementById('ball-hit-sound');
+        this.waterSplashSound = document.getElementById('water-splash-sound');
+        this.holeSuccessSound = document.getElementById('hole-success-sound');
+        this.buttonClickSound = document.getElementById('button-click-sound');
+        
         // Game state
         this.currentState = GAME_STATES.START;
         this.currentPhase = PHASES.DESIGN;
@@ -1358,6 +1364,12 @@ class GolfGame {
         this.gameMode = 'custom'; // 'custom' or 'premade'
         this.playerMode = 'multiplayer'; // 'single' or 'multiplayer'
         this.selectedCourse = 'beginner';
+        
+        // Timer properties
+        this.timerEnabled = false;
+        this.timerSeconds = 30;
+        this.buildTimer = null;
+        this.timeRemaining = 30;
         
         // Design phase toggles
         this.ballMovable = true;
@@ -1414,7 +1426,32 @@ class GolfGame {
         
         this.initializeBoundaryWalls();
         this.setupEventListeners();
+        this.resetUIState(); // Ensure consistent UI state on first load
         this.gameLoop();
+    }
+
+    // Sound methods
+    playSound(audioElement) {
+        if (audioElement) {
+            audioElement.currentTime = 0;
+            audioElement.play().catch(e => console.log('Audio play failed:', e));
+        }
+    }
+
+    playBallHitSound() {
+        this.playSound(this.ballHitSound);
+    }
+
+    playWaterSplashSound() {
+        this.playSound(this.waterSplashSound);
+    }
+
+    playHoleSuccessSound() {
+        this.playSound(this.holeSuccessSound);
+    }
+
+    playButtonClickSound() {
+        this.playSound(this.buttonClickSound);
     }
 
     initializeBoundaryWalls() {
@@ -1433,6 +1470,7 @@ class GolfGame {
         const startGameBtn = document.getElementById('start-game-btn');
         if (startGameBtn) {
             startGameBtn.addEventListener('click', () => {
+                this.playButtonClickSound();
                 this.startGame();
             });
         }
@@ -1441,6 +1479,7 @@ class GolfGame {
         const doneBuildingBtn = document.getElementById('done-building-btn');
         if (doneBuildingBtn) {
             doneBuildingBtn.addEventListener('click', () => {
+                this.playButtonClickSound();
                 this.nextPhase();
             });
         }
@@ -1449,6 +1488,7 @@ class GolfGame {
         const showRulesBtn = document.getElementById('show-rules-btn');
         if (showRulesBtn) {
             showRulesBtn.addEventListener('click', () => {
+                this.playButtonClickSound();
                 this.showRules();
             });
         }
@@ -1457,6 +1497,7 @@ class GolfGame {
         const closeRulesBtn = document.getElementById('close-rules-btn');
         if (closeRulesBtn) {
             closeRulesBtn.addEventListener('click', () => {
+                this.playButtonClickSound();
                 this.hideRules();
             });
         }
@@ -1465,6 +1506,7 @@ class GolfGame {
         const closeRulesX = document.getElementById('close-rules');
         if (closeRulesX) {
             closeRulesX.addEventListener('click', () => {
+                this.playButtonClickSound();
                 this.hideRules();
             });
         }
@@ -1473,6 +1515,7 @@ class GolfGame {
         const showSettingsBtn = document.getElementById('show-settings-btn');
         if (showSettingsBtn) {
             showSettingsBtn.addEventListener('click', () => {
+                this.playButtonClickSound();
                 this.showSettings();
             });
         }
@@ -1481,6 +1524,7 @@ class GolfGame {
         const closeSettingsBtn = document.getElementById('close-settings-btn');
         if (closeSettingsBtn) {
             closeSettingsBtn.addEventListener('click', () => {
+                this.playButtonClickSound();
                 this.hideSettings();
             });
         }
@@ -1489,6 +1533,7 @@ class GolfGame {
         const closeSettingsX = document.getElementById('close-settings');
         if (closeSettingsX) {
             closeSettingsX.addEventListener('click', () => {
+                this.playButtonClickSound();
                 this.hideSettings();
             });
         }
@@ -1497,8 +1542,34 @@ class GolfGame {
         const restartRoundBtn = document.getElementById('restart-round-btn');
         if (restartRoundBtn) {
             restartRoundBtn.addEventListener('click', () => {
+                this.playButtonClickSound();
+                // Stop current timer if running
+                this.stopBuildTimer();
                 this.resetHole();
                 this.hideSettings();
+                
+                // Restart timer if enabled
+                if (this.timerEnabled) {
+                    this.startBuildTimer();
+                }
+            });
+        }
+
+        // Exit game button
+        const exitGameBtn = document.getElementById('exit-game-btn');
+        if (exitGameBtn) {
+            exitGameBtn.addEventListener('click', () => {
+                this.playButtonClickSound();
+                this.exitToMenu();
+            });
+        }
+
+        // Face-off exit button
+        const faceOffExitBtn = document.getElementById('face-off-exit-btn');
+        if (faceOffExitBtn) {
+            faceOffExitBtn.addEventListener('click', () => {
+                this.playButtonClickSound();
+                this.exitToMenu();
             });
         }
 
@@ -1506,6 +1577,7 @@ class GolfGame {
         const playAgainBtn = document.getElementById('play-again-btn');
         if (playAgainBtn) {
             playAgainBtn.addEventListener('click', () => {
+                this.playButtonClickSound();
                 this.playAgain();
             });
         }
@@ -1541,6 +1613,7 @@ class GolfGame {
         
         if (customMode) {
             customMode.addEventListener('click', () => {
+                this.playButtonClickSound();
                 this.gameMode = 'custom';
                 customMode.classList.add('active');
                 premadeMode.classList.remove('active');
@@ -1551,6 +1624,7 @@ class GolfGame {
         
         if (premadeMode) {
             premadeMode.addEventListener('click', () => {
+                this.playButtonClickSound();
                 this.gameMode = 'premade';
                 premadeMode.classList.add('active');
                 customMode.classList.remove('active');
@@ -1594,6 +1668,7 @@ class GolfGame {
         const undoBtn = document.getElementById('undo-btn');
         if (undoBtn) {
             undoBtn.addEventListener('click', () => {
+                this.playButtonClickSound();
                 this.undoLastBuilding();
             });
         }
@@ -1602,6 +1677,7 @@ class GolfGame {
         const deleteBtn = document.getElementById('delete-btn');
         if (deleteBtn) {
             deleteBtn.addEventListener('click', () => {
+                this.playButtonClickSound();
                 this.deleteSelectedBuilding();
             });
         }
@@ -1651,11 +1727,103 @@ class GolfGame {
 
         // Create rotation handle and line elements
         this.createRotationElements();
+
+        // Hole count input validation
+        const holeCountInput = document.getElementById('hole-count');
+        if (holeCountInput) {
+            holeCountInput.addEventListener('blur', (e) => {
+                let value = parseInt(e.target.value);
+                if (isNaN(value) || value < 1 || value > 18) {
+                    e.target.value = 3;
+                }
+            });
+            
+            // Add step functionality for hole count
+            holeCountInput.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    let value = parseInt(e.target.value) || 3;
+                    value = Math.min(value + 1, 18);
+                    e.target.value = value;
+                } else if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    let value = parseInt(e.target.value) || 3;
+                    value = Math.max(value - 1, 1);
+                    e.target.value = value;
+                }
+            });
+        }
+
+        // Timer toggle and input
+        const timerToggle = document.getElementById('timer-toggle');
+        const timerSecondsInput = document.getElementById('timer-seconds');
+        
+        if (timerToggle) {
+            timerToggle.addEventListener('change', (e) => {
+                this.timerEnabled = e.target.checked;
+                // Timer input is always visible now
+            });
+        }
+        
+        if (timerSecondsInput) {
+            timerSecondsInput.addEventListener('input', (e) => {
+                let value = parseInt(e.target.value);
+                if (isNaN(value) || value < 5 || value > 300) {
+                    e.target.value = 30;
+                }
+            });
+            
+            timerSecondsInput.addEventListener('blur', (e) => {
+                let value = parseInt(e.target.value);
+                if (isNaN(value) || value < 5 || value > 300) {
+                    e.target.value = 30;
+                }
+            });
+            
+            // Add step functionality for timer seconds
+            timerSecondsInput.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    let value = parseInt(e.target.value) || 30;
+                    value = Math.min(value + 15, 300);
+                    e.target.value = value;
+                } else if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    let value = parseInt(e.target.value) || 30;
+                    value = Math.max(value - 15, 5);
+                    e.target.value = value;
+                }
+            });
+        }
+
+        // Courses exit button
+        const coursesExitBtn = document.getElementById('courses-exit-btn');
+        if (coursesExitBtn) {
+            coursesExitBtn.addEventListener('click', () => {
+                this.exitToMenu();
+            });
+        }
     }
 
     startGame() {
         if (this.gameMode === 'custom') {
-            this.totalHoles = parseInt(document.getElementById('hole-count').value);
+            let holeCount = parseInt(document.getElementById('hole-count').value);
+            if (isNaN(holeCount) || holeCount < 1 || holeCount > 18) {
+                holeCount = 3;
+                document.getElementById('hole-count').value = 3;
+            }
+            this.totalHoles = holeCount;
+            
+            // Read timer settings
+            this.timerEnabled = document.getElementById('timer-toggle').checked;
+            let timerSeconds = parseInt(document.getElementById('timer-seconds').value);
+            if (isNaN(timerSeconds) || timerSeconds < 5 || timerSeconds > 300) {
+                timerSeconds = 30;
+                document.getElementById('timer-seconds').value = 30;
+            }
+            this.timerSeconds = timerSeconds;
+            this.timeRemaining = timerSeconds;
+            
             this.currentState = GAME_STATES.DESIGN;
             this.currentPhase = PHASES.DESIGN;
             this.currentHole = 1;
@@ -1673,7 +1841,14 @@ class GolfGame {
             
             this.resetHole();
             this.updateUI();
-            this.showMessage(`Player ${this.currentPlayer} building`);
+            this.updateGameModeUI();
+            
+            // Start build timer if enabled
+            if (this.timerEnabled) {
+                this.startBuildTimer();
+            }
+            
+            this.showMessage(`${this.getPlayerColor(this.currentPlayer)} building`);
         } else if (this.gameMode === 'premade') {
             this.selectedCourse = document.getElementById('course-select').value;
             this.playerMode = document.getElementById('player-mode').value;
@@ -1698,6 +1873,7 @@ class GolfGame {
             
             this.loadPremadeHole();
             this.updateUI();
+            this.updateGameModeUI();
             this.showMessage(`Playing ${PREMADE_COURSES[this.selectedCourse].name} - Hole ${this.currentHole}`);
         }
     }
@@ -1717,6 +1893,33 @@ class GolfGame {
         }
     }
 
+    updateGameModeUI() {
+        const rulesBtn = document.getElementById('show-rules-btn');
+        const restartRoundBtn = document.getElementById('restart-round-btn');
+        const faceOffSettings = document.getElementById('face-off-settings');
+        const coursesSettings = document.getElementById('courses-settings');
+        const faceOffExitBtn = document.getElementById('face-off-exit-btn');
+        const coursesExitBtn = document.getElementById('courses-exit-btn');
+        
+        if (this.gameMode === 'premade') {
+            // In courses mode, hide rules button and restart round button
+            if (rulesBtn) rulesBtn.style.display = 'none';
+            if (restartRoundBtn) restartRoundBtn.style.display = 'none';
+            if (faceOffSettings) faceOffSettings.style.display = 'none';
+            if (coursesSettings) coursesSettings.style.display = 'block';
+            if (faceOffExitBtn) faceOffExitBtn.style.display = 'none';
+            if (coursesExitBtn) coursesExitBtn.style.display = 'block';
+        } else {
+            // In face off mode, show rules button and restart round button
+            if (rulesBtn) rulesBtn.style.display = 'block';
+            if (restartRoundBtn) restartRoundBtn.style.display = 'block';
+            if (faceOffSettings) faceOffSettings.style.display = 'block';
+            if (coursesSettings) coursesSettings.style.display = 'none';
+            if (faceOffExitBtn) faceOffExitBtn.style.display = 'block';
+            if (coursesExitBtn) coursesExitBtn.style.display = 'none';
+        }
+    }
+
     loadPremadeHole() {
         const course = PREMADE_COURSES[this.selectedCourse];
         const holeData = course.courses[this.currentHole - 1];
@@ -1731,6 +1934,9 @@ class GolfGame {
         this.buildingHistory = [];
         
         // Create walls from hole data
+        let terrainCount = 0;
+        let wallCount = 0;
+        
         for (let wallData of holeData.walls) {
             let building;
             switch (wallData.type) {
@@ -1753,7 +1959,16 @@ class GolfGame {
             
             if (building) {
                 building.rotation = wallData.rotation || 0;
-                building.zIndex = this.walls.length; // Simple z-index assignment
+                
+                // Assign z-index: terrain first (lower values), walls last (higher values)
+                if (building.type === 'wall') {
+                    building.zIndex = 1000 + wallCount; // Walls get high z-index
+                    wallCount++;
+                } else {
+                    building.zIndex = terrainCount; // Terrain gets low z-index
+                    terrainCount++;
+                }
+                
                 this.walls.push(building);
             }
         }
@@ -1795,7 +2010,7 @@ class GolfGame {
         }
 
         // Log the hole data in a single line for easy copy-pasting
-        console.log('🎨 Custom Hole JSON:');
+        console.log('⚔️ Face Off Hole JSON:');
         
         let wallsString = '';
         for (let i = 0; i < currentHoleData.walls.length; i++) {
@@ -1859,7 +2074,10 @@ class GolfGame {
                 const buildModePanel = document.getElementById('build-mode-panel');
                 if (buildModePanel) buildModePanel.style.display = 'none';
                 
-                this.showMessage(`Player ${this.currentPlayer} playing`);
+                // Stop build timer
+                this.stopBuildTimer();
+                
+                this.showMessage(`${this.getPlayerColor(this.currentPlayer)} playing`);
             } else if (this.currentPhase === PHASES.PLAY) {
                 // Check if both players have played
                 if (this.player1HoleScore > 0 && this.player2HoleScore > 0) {
@@ -1883,7 +2101,12 @@ class GolfGame {
                     const buildModePanel = document.getElementById('build-mode-panel');
                     if (buildModePanel) buildModePanel.style.display = 'block';
                     
-                    this.showMessage(`Player ${this.currentPlayer} building`);
+                    // Start build timer if enabled
+                    if (this.timerEnabled) {
+                        this.startBuildTimer();
+                    }
+                    
+                    this.showMessage(`${this.getPlayerColor(this.currentPlayer)} building`);
                 }
             }
         }
@@ -1925,15 +2148,26 @@ class GolfGame {
         document.getElementById('final-player1-score').textContent = this.player1Score;
         document.getElementById('final-player2-score').textContent = this.player2Score;
         
+        // Hide Red player score in single player mode
+        const finalPlayer2Score = document.getElementById('final-player2-score');
+        const finalPlayer2Label = document.querySelector('.final-score:nth-child(2)');
+        if (this.gameMode === 'premade' && this.playerMode === 'single') {
+            if (finalPlayer2Score) finalPlayer2Score.style.display = 'none';
+            if (finalPlayer2Label) finalPlayer2Label.style.display = 'none';
+        } else {
+            if (finalPlayer2Score) finalPlayer2Score.style.display = 'inline';
+            if (finalPlayer2Label) finalPlayer2Label.style.display = 'flex';
+        }
+        
         // Determine winner
         let winnerText = '';
         if (this.gameMode === 'premade' && this.playerMode === 'single') {
             // Single player mode - just show completion
             winnerText = `Course Complete! Final Score: ${this.player1Score}`;
         } else if (this.player1Score < this.player2Score) {
-            winnerText = 'Player 1 (Blue) wins! 🏆';
+            winnerText = 'Blue wins! 🏆';
         } else if (this.player2Score < this.player1Score) {
-            winnerText = 'Player 2 (Red) wins! 🏆';
+            winnerText = 'Red wins! 🏆';
         } else {
             winnerText = "It's a tie! 🤝";
         }
@@ -2399,6 +2633,9 @@ class GolfGame {
         this.ball.velocity = velocity;
         this.ball.isMoving = true;
         
+        // Play ball hit sound
+        this.playBallHitSound();
+        
         if (this.gameMode === 'premade' && this.playerMode === 'single') {
             // Single player mode - just increment player 1 score
             this.player1HoleScore++;
@@ -2611,6 +2848,9 @@ class GolfGame {
         // Water acts like other terrain - just apply friction
         // The ball will be moved back later if it stops over water
         this.ball.currentFriction = WATER_FRICTION; // Water has high friction
+        
+        // Play water splash sound
+        this.playWaterSplashSound();
     }
 
     resolveIceCollision(ice) {
@@ -2625,6 +2865,9 @@ class GolfGame {
             this.ball.isInHole = true;
             this.ball.isMoving = false;
             this.ball.velocity = new Vector2D(0, 0);
+            
+            // Play hole success sound
+            this.playHoleSuccessSound();
             
             // Create confetti
             this.createConfetti();
@@ -2665,13 +2908,13 @@ class GolfGame {
                     // First player completed, now second player gets their turn
                     const nextPlayer = completingPlayer === 1 ? 2 : 1;
                     const nextPlayerName = this.getPlayerColor(nextPlayer);
-                    this.showMessage(`Player ${completingPlayer} (${completingPlayerName}) completed hole ${this.currentHole}. Now Player ${nextPlayer} (${nextPlayerName}) gets their turn.`);
+                    this.showMessage(`${completingPlayerName} completed hole ${this.currentHole}. Now ${nextPlayerName} gets their turn.`);
                     
                     // Spawn the next player's ball after confetti and delay
                     setTimeout(() => {
                         this.ball.reset(this.spawnPosition.x, this.spawnPosition.y);
                         this.updateBallColor();
-                        this.showMessage(`Player ${nextPlayer} (${nextPlayerName}) is now playing.`);
+                        this.showMessage(`${nextPlayerName} is now playing.`);
                     }, 2000);
                 }
             } else {
@@ -2703,13 +2946,13 @@ class GolfGame {
                     // First player completed, now second player gets their turn
                     const nextPlayer = completingPlayer === 1 ? 2 : 1;
                     const nextPlayerName = this.getPlayerColor(nextPlayer);
-                    this.showMessage(`Player ${completingPlayer} (${completingPlayerName}) completed hole ${this.currentHole}. Now Player ${nextPlayer} (${nextPlayerName}) gets their turn.`);
+                    this.showMessage(`${completingPlayerName} completed hole ${this.currentHole}. Now ${nextPlayerName} gets their turn.`);
                     
                     // Spawn the next player's ball after confetti and delay
                     setTimeout(() => {
                         this.ball.reset(this.spawnPosition.x, this.spawnPosition.y);
                         this.updateBallColor();
-                        this.showMessage(`Player ${nextPlayer} (${nextPlayerName}) is now playing.`);
+                        this.showMessage(`${nextPlayerName} is now playing.`);
                     }, 2000); // Increased delay to allow confetti to show
                 }
             }
@@ -2782,7 +3025,7 @@ class GolfGame {
 
     draw() {
         // Clear canvas
-        this.ctx.fillStyle = '#a2d149';
+        this.ctx.fillStyle = '#a2d149'; // Light green grass color
         this.ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
         
         // Draw boundary walls
@@ -3441,6 +3684,114 @@ class GolfGame {
         }
         
         return { isOverWater: false, water: null };
+    }
+
+    startBuildTimer() {
+        if (!this.timerEnabled) return;
+        
+        this.timeRemaining = this.timerSeconds;
+        this.updateTimerDisplay();
+        
+        const buildTimer = document.getElementById('build-timer');
+        if (buildTimer) {
+            buildTimer.style.display = 'flex';
+        }
+        
+        this.buildTimer = setInterval(() => {
+            this.timeRemaining--;
+            this.updateTimerDisplay();
+            
+            if (this.timeRemaining <= 0) {
+                this.stopBuildTimer();
+                this.nextPhase(); // Auto-complete the design phase
+            }
+        }, 1000);
+    }
+
+    stopBuildTimer() {
+        if (this.buildTimer) {
+            clearInterval(this.buildTimer);
+            this.buildTimer = null;
+        }
+        
+        const buildTimer = document.getElementById('build-timer');
+        if (buildTimer) {
+            buildTimer.style.display = 'none';
+        }
+    }
+
+    updateTimerDisplay() {
+        const timerDisplay = document.getElementById('timer-display');
+        const buildTimer = document.getElementById('build-timer');
+        
+        if (timerDisplay) {
+            timerDisplay.textContent = this.timeRemaining;
+        }
+        
+        if (buildTimer) {
+            if (this.timeRemaining <= 5) {
+                buildTimer.classList.add('warning');
+            } else {
+                buildTimer.classList.remove('warning');
+            }
+        }
+    }
+
+    exitToMenu() {
+        // Stop any running timers
+        this.stopBuildTimer();
+        
+        // Reset game state
+        this.currentState = GAME_STATES.START;
+        this.gameMode = 'custom';
+        this.playerMode = 'multiplayer';
+        this.selectedCourse = 'beginner';
+        
+        // Reset UI
+        this.resetUIState();
+        
+        // Hide settings modal
+        this.hideSettings();
+    }
+
+    resetUIState() {
+        const gameScreen = document.getElementById('game-screen');
+        const winScreen = document.getElementById('win-screen');
+        const startScreen = document.getElementById('start-screen');
+        const buildModePanel = document.getElementById('build-mode-panel');
+        
+        if (gameScreen) gameScreen.style.display = 'none';
+        if (winScreen) winScreen.style.display = 'none';
+        if (startScreen) startScreen.style.display = 'block';
+        if (buildModePanel) buildModePanel.style.display = 'none';
+        
+        // Reset mode selection UI
+        const customMode = document.getElementById('custom-mode');
+        const premadeMode = document.getElementById('premade-mode');
+        const customSettings = document.getElementById('custom-settings');
+        const premadeSettings = document.getElementById('premade-settings');
+        
+        if (customMode && premadeMode && customSettings && premadeSettings) {
+            customMode.classList.add('active');
+            premadeMode.classList.remove('active');
+            customSettings.style.display = 'block';
+            premadeSettings.style.display = 'none';
+        }
+        
+        // Reset form values
+        const holeCountInput = document.getElementById('hole-count');
+        const timerToggle = document.getElementById('timer-toggle');
+        const timerSecondsInput = document.getElementById('timer-seconds');
+        const courseSelect = document.getElementById('course-select');
+        const playerModeSelect = document.getElementById('player-mode');
+        
+        if (holeCountInput) holeCountInput.value = '3';
+        if (timerToggle) timerToggle.checked = false;
+        if (timerSecondsInput) {
+            timerSecondsInput.value = '30';
+        }
+        if (courseSelect) courseSelect.value = 'beginner';
+        if (playerModeSelect) playerModeSelect.value = 'multiplayer';
     }
 }
 

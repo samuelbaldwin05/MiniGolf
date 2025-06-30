@@ -7,69 +7,71 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="simple-container">
-        <!-- Start Screen -->
-        <div id="start-screen" class="start-screen flex-center">
-            <div class="start-content">
-                <h1>🏌️ Golf Game</h1>
-                <p>Pass and play golf with course design!</p>
-                
-                <!-- Game Mode Selection -->
-                <div class="game-mode-selection">
-                    <h3>Select Game Mode:</h3>
-                    <div class="mode-options">
-                        <div class="mode-option active" id="custom-mode">
-                            <div class="mode-icon">🎨</div>
-                            <div class="mode-info">
-                                <h4>Custom Course Builder</h4>
-                                <p>Design your own courses and play them with friends</p>
-                            </div>
+    <!-- Start Screen -->
+    <div id="start-screen" class="start-screen flex-center">
+        <div class="start-content">
+            <h1>🏌️ Golf Game</h1>
+            
+            <!-- Game Mode Selection -->
+            <div class="game-mode-selection">
+                <h3>Select Game Mode:</h3>
+                <div class="mode-options">
+                    <div class="mode-option active" id="custom-mode">
+                        <div class="mode-icon">⚔️</div>
+                        <div class="mode-info">
+                            <h4>Face Off</h4>
+                            <p>Design courses and battle!</p>
                         </div>
-                        <div class="mode-option" id="premade-mode">
-                            <div class="mode-icon">🏆</div>
-                            <div class="mode-info">
-                                <h4>Premade Courses</h4>
-                                <p>Play through expertly designed courses</p>
-                            </div>
+                    </div>
+                    <div class="mode-option" id="premade-mode">
+                        <div class="mode-icon">🚩</div>
+                        <div class="mode-info">
+                            <h4>Courses</h4>
+                            <p>Play pre-designed courses</p>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Custom Mode Settings (shown by default) -->
-                <div id="custom-settings" class="settings-panel">
-                    <div class="setting-item">
-                        <label for="hole-count">Number of Holes:</label>
-                        <select id="hole-count" class="setting-select">
-                            <option value="2">2 Holes</option>
-                            <option value="4" selected>4 Holes</option>
-                            <option value="8">8 Holes</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <!-- Premade Mode Settings (hidden by default) -->
-                <div id="premade-settings" class="settings-panel" style="display: none;">
-                    <div class="setting-item">
-                        <label for="course-select">Select Course:</label>
-                        <select id="course-select" class="setting-select">
-                            <option value="beginner">Beginner Course (3 holes)</option>
-                            <option value="intermediate">Intermediate Course (5 holes)</option>
-                            <option value="advanced">Advanced Course (7 holes)</option>
-                        </select>
-                    </div>
-                    <div class="setting-item">
-                        <label for="player-mode">Player Mode:</label>
-                        <select id="player-mode" class="setting-select">
-                            <option value="single">Single Player</option>
-                            <option value="multiplayer" selected>Multiplayer</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <button class="btn action-btn" id="start-game-btn">Start Game</button>
             </div>
+            
+            <!-- Custom Mode Settings (shown by default) -->
+            <div id="custom-settings" class="settings-panel">
+                <div class="setting-item">
+                    <label for="hole-count">Number of Holes:</label>
+                    <input type="number" id="hole-count" class="setting-input" min="1" max="18" value="3">
+                </div>
+                <div class="setting-item">
+                    <label for="timer-toggle">Timer:</label>
+                    <div class="timer-controls">
+                        <input type="checkbox" id="timer-toggle" class="setting-checkbox">
+                        <input type="number" id="timer-seconds" class="setting-input timer-input" min="5" max="300" step="15" value="30">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Premade Mode Settings (hidden by default) -->
+            <div id="premade-settings" class="settings-panel" style="display: none;">
+                <div class="setting-item">
+                    <label for="course-select">Select Course:</label>
+                    <select id="course-select" class="setting-select">
+                        <option value="beginner">Beginner (3 holes)</option>
+                        <option value="intermediate">Intermediate (5 holes)</option>
+                        <option value="advanced">Advanced (7 holes)</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label for="player-mode">Player Mode:</label>
+                    <select id="player-mode" class="setting-select">
+                        <option value="single">Single Player</option>
+                        <option value="multiplayer" selected>Multiplayer</option>
+                    </select>
+                </div>
+            </div>
+            
+            <button class="btn action-btn" id="start-game-btn">Start Game</button>
         </div>
+    </div>
 
+    <div class="simple-container">
         <!-- Game Screen -->
         <div id="game-screen" class="game-screen" style="display: none;">
             <div class="game-area flex flex-gap-lg" style="padding: 20px;">
@@ -84,15 +86,16 @@
                         <div class="score-table">
                             <div class="score-header">
                                 <span class="hole-label">Hole <span id="current-hole">1</span></span>
+                                <span class="hole-label">Score</span>
                                 <span class="total-label">Total</span>
                             </div>
                             <div class="score-row">
-                                <span class="player-label player1-color">Player 1</span>
+                                <span class="player-label player1-color">Blue</span>
                                 <span class="hole-score" id="player1-hole-score">0</span>
                                 <span class="total-score" id="player1-total-score">0</span>
                             </div>
                             <div class="score-row">
-                                <span class="player-label player2-color">Player 2</span>
+                                <span class="player-label player2-color">Red</span>
                                 <span class="hole-score" id="player2-hole-score">0</span>
                                 <span class="total-score" id="player2-total-score">0</span>
                             </div>
@@ -113,6 +116,10 @@
             <!-- Build Mode Panel -->
             <div id="build-mode-panel" class="build-mode-panel" style="display: none;">
                 <div class="build-mode-header">
+                    <div class="build-timer" id="build-timer" style="display: none;">
+                        <span>Time Remaining: </span>
+                        <span id="timer-display">30</span>
+                    </div>
                     <div class="building-types">
                         <div class="building-options">
                             <div class="building-option active" id="wall-option" data-type="wall">
@@ -152,11 +159,11 @@
                 <h2 id="winner-title">🏆 Game Complete!</h2>
                 <div class="final-scores">
                     <div class="final-score">
-                        <span class="player-label player1-color">Player 1 (Blue):</span>
+                        <span class="player-label player1-color">Blue:</span>
                         <span class="score-number" id="final-player1-score">0</span>
                     </div>
                     <div class="final-score">
-                        <span class="player-label player2-color">Player 2 (Red):</span>
+                        <span class="player-label player2-color">Red:</span>
                         <span class="score-number" id="final-player2-score">0</span>
                     </div>
                 </div>
@@ -220,40 +227,77 @@
             <span class="close-btn" id="close-settings">&times;</span>
             <h2>⚙️ Settings</h2>
             
-            <div class="settings-section">
-                <h3>🎨 Design Options</h3>
-                <div class="toggle-group">
-                    <label class="toggle-label">
-                        <input type="checkbox" id="ball-movable-toggle" checked>
-                        <span class="toggle-text">Ball Movable</span>
-                    </label>
-                    <label class="toggle-label">
-                        <input type="checkbox" id="hole-movable-toggle" checked>
-                        <span class="toggle-text">Hole Movable</span>
-                    </label>
+            <!-- Face Off Mode Settings -->
+            <div id="face-off-settings">
+                <div class="settings-section">
+                    <h3>🎨 Design Options</h3>
+                    <div class="toggle-group">
+                        <label class="toggle-label">
+                            <input type="checkbox" id="ball-movable-toggle" checked>
+                            <span class="toggle-text">Ball Movable</span>
+                        </label>
+                        <label class="toggle-label">
+                            <input type="checkbox" id="hole-movable-toggle" checked>
+                            <span class="toggle-text">Hole Movable</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>🔄 Restart Round</h3>
+                    <p>If you want to restart the current hole, you can do so from here.</p>
+                    <button class="btn action-btn" id="restart-round-btn">Restart Round</button>
+                </div>
+
+                <div class="settings-section">
+                    <h3>🔧 Developer Options</h3>
+                    <div class="toggle-group">
+                        <label class="toggle-label">
+                            <input type="checkbox" id="dev-mode-toggle">
+                            <span class="toggle-text">Dev Mode</span>
+                        </label>
+                    </div>
                 </div>
             </div>
 
-            <div class="settings-section">
-                <h3>🔄 Restart Round</h3>
-                <p>If you want to restart the current hole, you can do so from here.</p>
-                <button class="btn action-btn" id="restart-round-btn">Restart Round</button>
-            </div>
-
-            <div class="settings-section">
-                <h3>🔧 Developer Options</h3>
-                <div class="toggle-group">
-                    <label class="toggle-label">
-                        <input type="checkbox" id="dev-mode-toggle">
-                        <span class="toggle-text">Dev Mode</span>
-                    </label>
+            <!-- Courses Mode Settings -->
+            <div id="courses-settings" style="display: none;">
+                <div class="settings-section">
+                    <h3>🚪 Exit Game</h3>
+                    <p>Return to the main menu. This will end the current game.</p>
                 </div>
             </div>
 
-            <button class="btn action-btn" id="close-settings-btn">Save Settings</button>
+            <div class="settings-buttons">
+                <button class="btn action-btn" id="close-settings-btn">Save Settings</button>
+                <button class="btn action-btn exit-btn" id="face-off-exit-btn" style="display: none;">Exit to Menu</button>
+                <button class="btn action-btn exit-btn" id="courses-exit-btn" style="display: none;">Exit to Menu</button>
+            </div>
         </div>
     </div>
 
+    <!-- Initialize the game when the page loads -->
     <script src="golf.js"></script>
+    
+    <!-- Audio elements for game sounds -->
+    <audio id="ball-hit-sound" preload="auto">
+        <source src="static/sounds/ball-hit.mp3" type="audio/mpeg">
+        <source src="static/sounds/ball-hit.wav" type="audio/wav">
+    </audio>
+    
+    <audio id="water-splash-sound" preload="auto">
+        <source src="static/sounds/water-splash.mp3" type="audio/mpeg">
+        <source src="static/sounds/water-splash.wav" type="audio/wav">
+    </audio>
+    
+    <audio id="hole-success-sound" preload="auto">
+        <source src="static/sounds/hole-success.mp3" type="audio/mpeg">
+        <source src="static/sounds/hole-success.wav" type="audio/wav">
+    </audio>
+    
+    <audio id="button-click-sound" preload="auto">
+        <source src="static/sounds/button-click.mp3" type="audio/mpeg">
+        <source src="static/sounds/button-click.wav" type="audio/wav">
+    </audio>
 </body>
 </html> 
