@@ -17,6 +17,149 @@ const WATER_FRICTION = 0.8;
 
 // Premade course data
 const PREMADE_COURSES = {
+
+    test: {
+        name: "Test Course",
+        holes: 2,
+        courses: [
+            {
+                name: "Hole 1",
+                ballPosition: { x: 50, y: 104 },
+                holePosition: { x: 50, y: 306 },
+                walls: [
+                    { type: "ice", x: 0, y: 0, width: 800, height: 400, rotation: 0 },
+
+                    { type: "wall", x: 0, y: 200, width: 600, height: 10, rotation: 0},
+                    { type: "wall", x: 650, y: -150, width: 300, height: 300, rotation: 45},
+                    { type: "wall", x: 650, y: 250, width: 300, height: 300, rotation: 45},
+
+                    { type: "wall", x: 100, y: 50, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 100, y: 100, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 100, y: 150, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 100, y: 250, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 100, y: 300, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 100, y: 350, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 150, y: 25, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 150, y: 75, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 150, y: 125, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 150, y: 175, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 150, y: 225, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 150, y: 275, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 150, y: 325, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 150, y: 375, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 200, y: 50, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 200, y: 100, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 200, y: 150, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 200, y: 250, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 200, y: 300, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 200, y: 350, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 250, y: 25, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 250, y: 75, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 250, y: 125, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 250, y: 175, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 250, y: 225, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 250, y: 275, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 250, y: 325, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 250, y: 375, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 300, y: 50, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 300, y: 100, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 300, y: 150, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 300, y: 250, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 300, y: 300, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 300, y: 350, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 350, y: 25, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 350, y: 75, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 350, y: 125, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 350, y: 175, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 350, y: 225, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 350, y: 275, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 350, y: 325, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 350, y: 375, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 400, y: 50, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 400, y: 100, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 400, y: 150, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 400, y: 250, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 400, y: 300, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 400, y: 350, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 450, y: 25, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 450, y: 75, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 450, y: 125, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 450, y: 175, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 450, y: 225, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 450, y: 275, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 450, y: 325, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 450, y: 375, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 500, y: 50, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 500, y: 100, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 500, y: 150, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 500, y: 250, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 500, y: 300, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 500, y: 350, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 550, y: 25, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 550, y: 75, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 550, y: 125, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 550, y: 175, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 550, y: 225, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 550, y: 275, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 550, y: 325, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 550, y: 375, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 600, y: 50, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 600, y: 100, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 600, y: 150, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 600, y: 250, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 600, y: 300, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 600, y: 350, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 650, y: 125, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 650, y: 175, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 650, y: 225, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 650, y: 275, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 700, y: 150, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 700, y: 200, width: 2, height: 2, rotation: 0},
+                    { type: "wall", x: 700, y: 250, width: 2, height: 2, rotation: 0},
+                ]
+            },
+            {
+                name: "Hole 2",
+                ballPosition: { x: 309, y: 45 },
+                holePosition: { x: 499, y: 82 },
+                walls: [
+                    // Walls and obstacles
+                    { type: "wall", x: 580, y: 15, width: 65, height: 63, rotation: -135.7345210342548 },
+                    { type: "wall", x: -30, y: 358, width: 117, height: 197, rotation: -135.8487642715536 },
+                    { type: "wall", x: 317, y: 122, width: 83, height: 83, rotation: 134.4694986833262 },
+                    { type: "wall", x: 357, y: -4, width: 84, height: 267, rotation: 0 },
+                    { type: "wall", x: 100, y: 98, width: 10, height: 211, rotation: 0 },
+                    { type: "wall", x: 100, y: 88, width: 164, height: 10, rotation: 0 },
+                    { type: "wall", x: 177, y: 158, width: 180, height: 11, rotation: 0 },
+                    { type: "wall", x: 112, y: 228, width: 147, height: 10, rotation: 0 },
+                    { type: "wall", x: 559, y: 106, width: 11, height: 205, rotation: 0 },
+                    { type: "wall", x: 557, y: -45, width: 263, height: 103, rotation: 0 },
+                    { type: "wall", x: 431, y: 129, width: 10, height: 182, rotation: 0 },
+                    { type: "wall", x: 487, y: 150, width: 25, height: 90, rotation: 0 },
+                    { type: "wall", x: 663, y: 126, width: 10, height: 161, rotation: 0 },
+                    
+                    // Sand traps
+                    { type: "sand", x: 111, y: 236, width: 149, height: 73, rotation: 0 },
+                    { type: "sand", x: 663, y: 39, width: 148, height: 385, rotation: 0 },
+                    { type: "sand", x: -26, y: 344, width: 82, height: 87, rotation: 0 },
+                    { type: "sand", x: 107, y: 96, width: 17, height: 144, rotation: 0 },
+                    
+                    // Water hazards
+                    { type: "water", x: 372, y: 215, width: 86, height: 76, rotation: 29.99507961713978 },
+                    { type: "water", x: 421, y: -34, width: 136, height: 91, rotation: 0 },
+                    
+                    // Ice patches
+                    { type: "ice", x: 442, y: 105, width: 117, height: 206, rotation: 0 },
+                    { type: "ice", x: 111, y: 93, width: 271, height: 141, rotation: 0 },
+                    
+                    // Tall grass areas
+                    { type: "tallGrass", x: 52, y: 366, width: 518, height: 44, rotation: -175.17923392190735 },
+                    { type: "tallGrass", x: 87, y: 87, width: 18, height: 223, rotation: 0 },
+                    { type: "tallGrass", x: -62, y: -55, width: 122, height: 112, rotation: -135.97102193107918 }
+                ]
+            }
+        ]
+    },
     beginner: {
         name: "Beginner Course",
         holes: 3,
@@ -2085,6 +2228,62 @@ class GolfGame {
         return currentHoleData;
     }
 
+    rebuildCourseFromData() {
+        // Store the current building data
+        const buildingData = [];
+        for (let building of this.walls) {
+            buildingData.push({
+                type: building.type,
+                x: building.x,
+                y: building.y,
+                width: building.width,
+                height: building.height,
+                rotation: building.rotation || 0
+            });
+        }
+
+        // Clear existing walls
+        this.walls = [];
+
+        // Recreate all buildings from the stored data
+        for (let data of buildingData) {
+            let building;
+            switch (data.type) {
+                case 'wall':
+                    building = new Wall(data.x, data.y, data.width, data.height);
+                    break;
+                case 'sand':
+                    building = new Sand(data.x, data.y, data.width, data.height);
+                    break;
+                case 'tallGrass':
+                    building = new TallGrass(data.x, data.y, data.width, data.height);
+                    break;
+                case 'water':
+                    building = new Water(data.x, data.y, data.width, data.height);
+                    break;
+                case 'ice':
+                    building = new Ice(data.x, data.y, data.width, data.height);
+                    break;
+            }
+            
+            if (building) {
+                // Set rotation if it exists
+                if (data.rotation !== undefined) {
+                    building.rotation = data.rotation;
+                }
+                
+                // Set zIndex to maintain layering
+                if (data.type === 'wall') {
+                    building.zIndex = 1000; // Walls on top
+                } else {
+                    building.zIndex = 100; // Terrain below
+                }
+                
+                this.walls.push(building);
+            }
+        }
+    }
+
     nextPhase() {
         if (this.gameMode === 'premade') {
             if (this.playerMode === 'single') {
@@ -2126,6 +2325,9 @@ class GolfGame {
                 
                 // Generate course JSON when done building
                 this.generateCourseJSON();
+                
+                // Rebuild the course from coordinates to ensure proper collision detection
+                this.rebuildCourseFromData();
                 
                 // Clear selection and hide rotation handle
                 this.selectedBuilding = null;
