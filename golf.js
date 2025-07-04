@@ -1818,6 +1818,20 @@ class GolfGame {
             this.canvas.addEventListener('mousemove', (e) => this.handleMouseMove(e));
             this.canvas.addEventListener('mouseup', (e) => this.handleMouseUp(e));
             this.canvas.addEventListener('click', (e) => this.handleClick(e));
+            
+            // Touch event listeners for mobile support
+            this.canvas.addEventListener('touchstart', (e) => {
+                e.preventDefault(); // Prevent scrolling/zooming
+                this.handleTouchStart(e);
+            });
+            this.canvas.addEventListener('touchmove', (e) => {
+                e.preventDefault(); // Prevent scrolling/zooming
+                this.handleTouchMove(e);
+            });
+            this.canvas.addEventListener('touchend', (e) => {
+                e.preventDefault(); // Prevent scrolling/zooming
+                this.handleTouchEnd(e);
+            });
         }
 
         // Global mouse events for dragging outside canvas
@@ -2851,6 +2865,310 @@ class GolfGame {
                 this.hideRotationHandle();
             }
         }
+    }
+
+    // Touch event handlers for mobile support
+    handleTouchStart(e) {
+        if (e.touches.length === 0) return;
+        
+        const touch = e.touches[0];
+        const rect = this.canvas.getBoundingClientRect();
+        const x = touch.clientX - rect.left;
+        const y = touch.clientY - rect.top;
+        
+        // Handle rotation
+        if (this.isRotating) {
+            this.updateRotationFromTouch(touch);
+            return;
+        }
+
+        if (this.currentPhase === PHASES.PLAY && !this.ball.isMoving && !this.ball.isWaitingForWaterCheck) {
+            // Check if touching on ball
+            if (this.ball.position.distance(new Vector2D(x, y)) < this.ball.radius) {
+                this.isDragging = true;
+                this.dragStart = new Vector2D(x, y);
+                this.dragEnd = new Vector2D(x, y);
+                this.showTrajectory = true;
+            }
+        } else if (this.currentPhase === PHASES.DESIGN) {
+            // Check if touching on hole (only if hole is movable)
+            if (this.holeMovable && this.hole.position.distance(new Vector2D(x, y)) < this.hole.radius) {
+                this.isDragging = true;
+                this.dragStart = new Vector2D(x, y);
+                this.dragEnd = new Vector2D(x, y);
+                this.draggingObject = 'hole';
+                return;
+            }
+            
+            // Check if touching on ball (only if ball is movable)
+            if (this.ballMovable && this.ball.position.distance(new Vector2D(x, y)) < this.ball.radius) {
+                this.isDragging = true;
+                this.dragStart = new Vector2D(x, y);
+                this.dragEnd = new Vector2D(x, y);
+                this.draggingObject = 'ball';
+                return;
+            }
+            
+            // Check if touching on existing building
+            const touchedBuilding = this.getBuildingAtPosition(x, y);
+            
+            if (touchedBuilding) {
+                // Select the building for potential deletion and rotation
+                this.selectedBuilding = touchedBuilding;
+                this.showRotationHandle(touchedBuilding);
+                
+                // Start moving existing building
+                this.isMovingBuilding = true;
+                this.movingBuilding = touchedBuilding;
+                this.movingBuildingOffset = new Vector2D(x - touchedBuilding.x, y - touchedBuilding.y);
+                
+                // Store original position for collision reset
+                this.movingBuildingOriginalPosition = {
+                    x: touchedBuilding.x,
+                    y: touchedBuilding.y,
+                    rotation: touchedBuilding.rotation
+                };
+            } else {
+                // Touching on empty space - clear selection and start building new
+                if (this.selectedBuilding) {
+                    // Clear selection when touching off a building
+                    this.selectedBuilding = null;
+                    this.hideRotationHandle();
+                }
+                
+                // Start building if touching on empty space
+                const touchingOnHole = this.hole.position.distance(new Vector2D(x, y)) < this.hole.radius;
+                const touchingOnBall = this.ball.position.distance(new Vector2D(x, y)) < this.ball.radius;
+                
+                if (!touchingOnHole && !touchingOnBall) {
+                    this.isBuilding = true;
+                    this.buildStart = new Vector2D(x, y);
+                    this.buildEnd = new Vector2D(x, y);
+                }
+            }
+        }
+    }
+
+    handleTouchMove(e) {
+        if (e.touches.length === 0) return;
+        
+        const touch = e.touches[0];
+        const rect = this.canvas.getBoundingClientRect();
+        const x = touch.clientX - rect.left;
+        const y = touch.clientY - rect.top;
+        
+        // Handle rotation
+        if (this.isRotating) {
+            this.updateRotationFromTouch(touch);
+            return;
+        }
+
+        // Update cursor based on phase and position (for visual feedback)
+        if (this.currentPhase === PHASES.DESIGN) {
+            const hoveringOverHole = this.hole.position.distance(new Vector2D(x, y)) < this.hole.radius;
+            const hoveringOverBall = this.ball.position.distance(new Vector2D(x, y)) < this.ball.radius;
+            const hoveringOverBuilding = this.getBuildingAtPosition(x, y) !== null;
+            
+            if (hoveringOverHole || hoveringOverBall || hoveringOverBuilding) {
+                this.canvas.style.cursor = 'pointer';
+            } else {
+                this.canvas.style.cursor = 'crosshair';
+            }
+        } else {
+            // Play phase - check if hovering over ball
+            if (this.ball.position.distance(new Vector2D(x, y)) < this.ball.radius && !this.ball.isWaitingForWaterCheck) {
+                this.canvas.style.cursor = 'pointer';
+            } else {
+                this.canvas.style.cursor = 'default';
+            }
+        }
+
+        if (this.isDragging) {
+            this.dragEnd = new Vector2D(x, y);
+            
+            // Update object position if dragging in design mode
+            if (this.currentPhase === PHASES.DESIGN && this.draggingObject) {
+                if (this.draggingObject === 'hole' && this.holeMovable) {
+                    // Check if new position would overlap with ball, buildings, and is within boundaries
+                    const newHolePos = new Vector2D(x, y);
+                    if (!this.holeOverlapsBall(newHolePos, this.ball) && 
+                        !this.holeOverlapsBuildings(newHolePos) && 
+                        this.isHoleOrBallWithinBoundaries(x - this.hole.radius, y - this.hole.radius, this.hole.radius * 2, this.hole.radius * 2)) {
+                        this.hole.position = newHolePos;
+                    }
+                } else if (this.draggingObject === 'ball' && this.ballMovable) {
+                    // Check if new position would overlap with hole, buildings, and is within boundaries
+                    const newBallPos = new Vector2D(x, y);
+                    const distance = newBallPos.distance(this.hole.position);
+                    
+                    // Check if ball would overlap with any buildings
+                    let ballOverlapsBuilding = false;
+                    for (let building of this.walls) {
+                        if (building.x < newBallPos.x + this.ball.radius &&
+                            building.x + building.width > newBallPos.x - this.ball.radius &&
+                            building.y < newBallPos.y + this.ball.radius &&
+                            building.y + building.height > newBallPos.y - this.ball.radius) {
+                            ballOverlapsBuilding = true;
+                            break;
+                        }
+                    }
+                    
+                    if (distance > (this.ball.radius + this.hole.radius) && 
+                        !ballOverlapsBuilding && 
+                        this.isHoleOrBallWithinBoundaries(x - this.ball.radius, y - this.ball.radius, this.ball.radius * 2, this.ball.radius * 2)) {
+                        this.ball.position = newBallPos;
+                        // Update spawn position when ball is moved during design
+                        this.spawnPosition = new Vector2D(x, y);
+                    }
+                }
+            }
+        } else if (this.isBuilding) {
+            // Update building end position for size adjustment
+            this.buildEnd = new Vector2D(x, y);
+            
+            // Calculate building dimensions
+            const startX = Math.min(this.buildStart.x, this.buildEnd.x);
+            const startY = Math.min(this.buildStart.y, this.buildEnd.y);
+            const endX = Math.max(this.buildStart.x, this.buildEnd.x);
+            const endY = Math.max(this.buildStart.y, this.buildEnd.y);
+            const width = endX - startX;
+            const height = endY - startY;
+            
+            // Only show preview if building is large enough
+            if (width >= 10 && height >= 10) {
+                // The preview will be drawn in the draw() method since isBuilding is true
+                // This ensures the building preview is visible while dragging
+            }
+        } else if (this.isMovingBuilding && this.movingBuilding) {
+            // Calculate new position
+            const newX = x - this.movingBuildingOffset.x;
+            const newY = y - this.movingBuildingOffset.y;
+            
+            // Store original position for collision reset
+            if (!this.movingBuildingOriginalPosition) {
+                this.movingBuildingOriginalPosition = {
+                    x: this.movingBuilding.x,
+                    y: this.movingBuilding.y
+                };
+            }
+            
+            // Update building position
+            this.movingBuilding.x = newX;
+            this.movingBuilding.y = newY;
+            
+            // Ensure walls always appear on top of other elements
+            if (this.movingBuilding.type === 'wall') {
+                // Walls get the highest zIndex (always on top)
+                const maxZIndex = this.walls.length > 0 ? Math.max(...this.walls.map(b => b.zIndex)) : 999;
+                this.movingBuilding.zIndex = maxZIndex + 1;
+            } else {
+                // For non-wall buildings, bring them to the top of their category
+                const sameTypeBuildings = this.walls.filter(b => b.type === this.movingBuilding.type);
+                const maxSameTypeZIndex = sameTypeBuildings.length > 0 ? Math.max(...sameTypeBuildings.map(b => b.zIndex)) : 0;
+                this.movingBuilding.zIndex = maxSameTypeZIndex + 1;
+            }
+            
+            // Update rotation handle position if building is selected
+            if (this.selectedBuilding === this.movingBuilding) {
+                this.showRotationHandle(this.movingBuilding);
+            }
+        }
+        
+        if (this.isRotating && this.selectedBuilding) {
+            this.updateRotationFromTouch(touch);
+        }
+    }
+
+    handleTouchEnd(e) {
+        // Handle rotation end
+        if (this.isRotating) {
+            this.isRotating = false;
+            return;
+        }
+
+        if (this.isDragging) {
+            this.isDragging = false;
+            this.showTrajectory = false;
+            this.draggingObject = null;
+            
+            // Only calculate shot if in play mode
+            if (this.currentPhase === PHASES.PLAY) {
+                // Calculate shot with even more sensitive power control
+                const direction = this.dragStart.subtract(this.dragEnd);
+                const power = Math.min(direction.magnitude() * 0.012, MAX_VELOCITY); // Reduced from 0.02 to 0.012 for even more sensitive control
+                const velocity = direction.normalize().multiply(power);
+                
+                this.shootBall(velocity);
+            }
+        } else if (this.isBuilding) {
+            // Calculate final building dimensions
+            const startX = Math.min(this.buildStart.x, this.buildEnd.x);
+            const startY = Math.min(this.buildStart.y, this.buildEnd.y);
+            const endX = Math.max(this.buildStart.x, this.buildEnd.x);
+            const endY = Math.max(this.buildStart.y, this.buildEnd.y);
+            const width = endX - startX;
+            const height = endY - startY;
+            
+            // Only place building if it meets minimum size requirements
+            if (width >= 10 && height >= 10) {
+                this.placeBuilding();
+            }
+            this.isBuilding = false;
+        } else if (this.isMovingBuilding) {
+            // Check for collisions when placing the building
+            if (this.movingBuilding && this.movingBuildingOriginalPosition) {
+                // Create a temporary building to check collisions
+                const tempBuilding = {
+                    x: this.movingBuilding.x,
+                    y: this.movingBuilding.y,
+                    width: this.movingBuilding.width,
+                    height: this.movingBuilding.height,
+                    type: this.movingBuilding.type,
+                    rotation: this.movingBuilding.rotation,
+                    intersects: function(ball) {
+                        const closestX = Math.max(this.x, Math.min(ball.position.x, this.x + this.width));
+                        const closestY = Math.max(this.y, Math.min(ball.position.y, this.y + this.height));
+                        const distanceX = ball.position.x - closestX;
+                        const distanceY = ball.position.y - closestY;
+                        return (distanceX * distanceX + distanceY * distanceY) < (ball.radius * ball.radius);
+                    }
+                };
+                
+                // If there are collisions or out of boundaries, reset to original position
+                if (false) { // Removed boundary checking - buildings can extend beyond boundaries
+                    this.movingBuilding.x = this.movingBuildingOriginalPosition.x;
+                    this.movingBuilding.y = this.movingBuildingOriginalPosition.y;
+                    this.movingBuilding.rotation = this.movingBuildingOriginalPosition.rotation;
+                    
+                    // Update rotation handle position
+                    if (this.selectedBuilding === this.movingBuilding) {
+                        this.showRotationHandle(this.movingBuilding);
+                    }
+                }
+            }
+            
+            this.isMovingBuilding = false;
+            this.movingBuilding = null;
+            this.movingBuildingOffset = new Vector2D(0, 0);
+            this.movingBuildingOriginalPosition = null;
+        }
+    }
+
+    updateRotationFromTouch(touch) {
+        if (!this.selectedBuilding || !this.isRotating) return;
+        
+        const canvasRect = this.canvas.getBoundingClientRect();
+        const centerX = this.selectedBuilding.x + this.selectedBuilding.width / 2;
+        const centerY = this.selectedBuilding.y + this.selectedBuilding.height / 2;
+        
+        const touchX = touch.clientX - canvasRect.left;
+        const touchY = touch.clientY - canvasRect.top;
+        
+        const angle = Math.atan2(touchY - centerY, touchX - centerX) * 180 / Math.PI;
+        this.selectedBuilding.rotation = angle;
+        
+        // Update rotation handle position
+        this.showRotationHandle(this.selectedBuilding);
     }
 
     wallIntersectsHole(wall, hole) {
