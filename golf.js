@@ -23,6 +23,193 @@ const PREMADE_COURSES = {
         courses: [
             {
                 name: "Hole 1",
+                ballPosition: { x: 311, y: 100 },
+                holePosition: { x: 553, y: 293 },
+                walls: [
+                    // Tall grass areas
+                    { type: "tallGrass", x: 396, y: 195, width: 97, height: 194, rotation: 0 },
+                    { type: "tallGrass", x: 142, y: -39, width: 614, height: 72, rotation: 0 },
+                    { type: "tallGrass", x: -239, y: -18, width: 476, height: 51, rotation: 0 },
+                    { type: "tallGrass", x: 135, y: 27, width: 93, height: 175, rotation: 0 },
+                    { type: "tallGrass", x: -13, y: 163, width: 606, height: 38, rotation: 0 },
+                    { type: "tallGrass", x: 447, y: 182, width: 146, height: 39, rotation: 0 },
+                    { type: "tallGrass", x: 591, y: 163, width: 19, height: 58, rotation: 0 },
+                    
+                    // Sand traps
+                    { type: "sand", x: 255, y: 198, width: 146, height: 227, rotation: 0 },
+                    { type: "sand", x: 3, y: -28, width: 161, height: 224, rotation: 0 },
+                    
+                    // Water hazards
+                    { type: "water", x: -135, y: 190, width: 391, height: 223, rotation: 0 },
+                    
+                    // Walls and obstacles
+                    { type: "wall", x: -5, y: 187, width: 597, height: 13, rotation: 0 },
+                    { type: "wall", x: 693, y: -49, width: 168, height: 117, rotation: -134.83950804016538 },
+                    { type: "wall", x: 724, y: 314, width: 183, height: 217, rotation: 135.34104227885885 }
+                ]
+            },
+            {
+                name: "Hole 2",
+                ballPosition: { x: 118, y: 298 },
+                holePosition: { x: 694, y: 89 },
+                walls: [
+                    // Tall grass areas
+                    { type: "tallGrass", x: 178, y: 221, width: 400, height: 29, rotation: 0 },
+                    
+                    // Sand traps
+                    { type: "sand", x: 305, y: 359, width: 511, height: 36, rotation: 0 },
+                    { type: "sand", x: -27, y: 359, width: 353, height: 40, rotation: 0 },
+                    
+                    // Ice patches
+                    { type: "ice", x: -86, y: -54, width: 616, height: 281, rotation: 0 },
+                    
+                    // Water hazards
+                    { type: "water", x: 758, y: -39, width: 44, height: 496, rotation: 0 },
+                    { type: "water", x: 531, y: 3, width: 249, height: 37, rotation: 0 },
+                    
+                    // Walls and obstacles
+                    { type: "wall", x: 623, y: 287, width: 95, height: 10, rotation: 139.3987053549955 },
+                    { type: "wall", x: 178, y: 103, width: 400, height: 124, rotation: 0 },
+                    { type: "wall", x: 531, y: 6, width: 12, height: 35, rotation: 0 },
+                    { type: "wall", x: -110, y: -154, width: 277, height: 250, rotation: 140.0025298852914 },
+                    { type: "wall", x: 8, y: -62, width: 54, height: 488, rotation: 0 },
+                    { type: "wall", x: 739, y: 343, width: 85, height: 85, rotation: 0 }
+                ]
+            },
+            {
+                name: "Hole 3",
+                ballPosition: { x: 50, y: 200 },
+                holePosition: { x: 731, y: 44 },
+                walls: [
+                    // Tall grass areas
+                    { type: "tallGrass", x: 407, y: 95, width: 29, height: 192, rotation: 0 },
+                    
+                    // Sand traps
+                    { type: "sand", x: 509, y: -67, width: 43, height: 212, rotation: 0 },
+                    { type: "sand", x: 514, y: 239, width: 43, height: 156, rotation: 0 },
+                    
+                    // Ice patches
+                    { type: "ice", x: -13, y: -70, width: 424, height: 555, rotation: 0 },
+                    
+                    // Water hazards
+                    { type: "water", x: 649, y: 238, width: 160, height: 204, rotation: 0 },
+                    
+                    // Walls and obstacles
+                    { type: "wall", x: 632, y: -18, width: 53, height: 61, rotation: 40.68397248013438 },
+                    { type: "wall", x: 757, y: -34, width: 65, height: 61, rotation: -145.23480276342323 },
+                    { type: "wall", x: 197, y: 96, width: 213, height: 190, rotation: 0 },
+                    { type: "wall", x: 550, y: 10, width: 116, height: 135, rotation: 0 },
+                    { type: "wall", x: 551, y: 238, width: 118, height: 166, rotation: 0 },
+                    { type: "wall", x: -54, y: -72, width: 129, height: 135, rotation: -42.54596832547293 },
+                    { type: "wall", x: -64, y: 329, width: 130, height: 142, rotation: -132.02197934805025 }
+                ]
+            }
+        ]
+    },
+
+    advanced: {
+        name: "Advanced Course",
+        holes: 5,
+        courses: [
+            {
+                name: "Hole 1",
+                ballPosition: { x: 127, y: 306 },
+                holePosition: { x: 695, y: 115 },
+                walls: [
+                    { type: "tallGrass", x: 274, y: 131, width: 89, height: 314, rotation: 0 },
+                    { type: "tallGrass", x: 431, y: -56, width: 58, height: 328, rotation: 0 },
+                    { type: "ice", x: -14, y: 4, width: 531, height: 58, rotation: 0 },
+                    { type: "ice", x: 9, y: 48, width: 56, height: 357, rotation: 0 },
+                    { type: "sand", x: 318, y: 338, width: 490, height: 58, rotation: 0 },
+                    { type: "ice", x: 572, y: 67, width: 240, height: 119, rotation: 0 },
+                    { type: "water", x: 580, y: -20, width: 212, height: 87, rotation: 0 },
+                    { type: "wall", x: 479, y: -18, width: 129, height: 289, rotation: 0 },
+                    { type: "wall", x: 194, y: 132, width: 128, height: 376, rotation: 0 },
+                    { type: "wall", x: -46, y: -72, width: 119, height: 111, rotation: -41 },
+                    { type: "wall", x: 431, y: -38, width: 87, height: 83, rotation: -137 },
+                    { type: "wall", x: 289, y: 357, width: 79, height: 83, rotation: -49 },
+                    { type: "wall", x: 752, y: 354, width: 77, height: 79, rotation: -46 },
+                    { type: "wall", x: 666, y: 68, width: 58, height: 10, rotation: 0 }
+                ]
+            },
+            {
+                name: "Hole 2",
+                ballPosition: { x: 79, y: 318 },
+                holePosition: { x: 730, y: 54 },
+                walls: [
+                    { type: "tallGrass", x: 593, y: 58, width: 79, height: 266, rotation: 0 },
+                    { type: "tallGrass", x: 185, y: 123, width: 323, height: 281, rotation: 0 },
+                    { type: "sand", x: 184, y: 102, width: 325, height: 20, rotation: 0 },
+                    { type: "sand", x: 7, y: 215, width: 95, height: 25, rotation: 0 },
+                    { type: "sand", x: 501, y: 89, width: 85, height: 33, rotation: 0 },
+                    { type: "sand", x: 586, y: 10, width: 93, height: 10, rotation: 0 },
+                    { type: "sand", x: 586, y: 50, width: 93, height: 10, rotation: 0 },
+                    { type: "ice", x: 586, y: 321, width: 95, height: 69, rotation: 0 },
+                    { type: "ice", x: 676, y: 83, width: 114, height: 311, rotation: 0 },
+                    { type: "water", x: 7, y: 6, width: 161, height: 46, rotation: 0 },
+                    { type: "wall", x: 169, y: 5, width: 10, height: 50, rotation: 0 },
+                    { type: "wall", x: 170, y: 191, width: 255, height: 10, rotation: -148.5 },
+                    { type: "wall", x: 445, y: 113, width: 12, height: 168, rotation: 35 },
+                    { type: "wall", x: 587, y: 61, width: 10, height: 259, rotation: 0 },
+                    { type: "wall", x: 587, y: 315, width: 91, height: 10, rotation: 0 },
+                    { type: "wall", x: 669, y: 59, width: 10, height: 266, rotation: 0 },
+                    { type: "wall", x: 587, y: 59, width: 92, height: 12, rotation: 0 },
+                    { type: "wall", x: 222, y: 31, width: 59, height: 13, rotation: -150 },
+                    { type: "wall", x: 173, y: 29, width: 61, height: 13, rotation: 154 },
+                    { type: "wall", x: 269, y: 33, width: 57, height: 12, rotation: 151 },
+                    { type: "wall", x: 316, y: 30, width: 51, height: 13, rotation: -158 },
+                    { type: "wall", x: 498, y: 90, width: 10, height: 32, rotation: 0 },
+                    { type: "wall", x: 361, y: 32, width: 51, height: 13, rotation: 160 },
+                    { type: "wall", x: 403, y: -3, width: 12, height: 38, rotation: 0 },
+                    { type: "wall", x: 545, y: 76, width: 12, height: 12, rotation: 0 },
+                    { type: "wall", x: 726, y: 176, width: 12, height: 12, rotation: 0 },
+                    { type: "wall", x: 696, y: 244, width: 12, height: 12, rotation: 0 },
+                    { type: "wall", x: 753, y: 110, width: 12, height: 12, rotation: 0 },
+                    { type: "wall", x: 751, y: 311, width: 56, height: 131, rotation: -137 },
+                    { type: "wall", x: 11, y: 231, width: 92, height: 10, rotation: 180 },
+                    { type: "wall", x: 89, y: 122, width: 419, height: 11, rotation: 0 },
+                    { type: "wall", x: 185, y: 296, width: 12, height: 105, rotation: 0 },
+                ]
+            },
+            {
+                name: "Hole 3",
+                ballPosition: { x: 728, y: 348 },
+                holePosition: { x: 724, y: 61 },
+                walls: [
+                    // Tall grass areas
+                    { type: "tallGrass", x: 239, y: 212, width: 133, height: 67, rotation: 0 },
+                    { type: "tallGrass", x: 199, y: 197, width: 68, height: 68, rotation: -142.02839623894963 },
+                    { type: "tallGrass", x: 355, y: 220, width: 41, height: 45, rotation: -49.23639479905884 },
+                    { type: "tallGrass", x: 350, y: 239, width: 38, height: 32, rotation: 39.95754893082909 },
+                    { type: "tallGrass", x: 221, y: -31, width: 359, height: 79, rotation: 0 },
+                    { type: "tallGrass", x: 303, y: 78, width: 238, height: 41, rotation: 0 },
+                    { type: "tallGrass", x: 532, y: -22, width: 270, height: 50, rotation: 0 },
+                    { type: "tallGrass", x: 768, y: -56, width: 33, height: 211, rotation: 0 },
+                    { type: "tallGrass", x: 527, y: 84, width: 30, height: 29, rotation: -133.8308606720926 },
+                    
+                    // Sand traps
+                    { type: "sand", x: 427, y: 351, width: 137, height: 107, rotation: 46.05311263232383 },
+                    { type: "sand", x: 176, y: 318, width: 310, height: 105, rotation: 0 },
+                    { type: "sand", x: -153, y: 222, width: 405, height: 303, rotation: 37.316018170266034 },
+                    
+                    // Water hazards
+                    { type: "water", x: 756, y: 225, width: 332, height: 157, rotation: 36.41336723174498 },
+                    { type: "water", x: 717, y: 196, width: 84, height: 48, rotation: 0 },
+                    { type: "water", x: 649, y: 202, width: 165, height: 50, rotation: -146.08828646356076 },
+                    { type: "water", x: 515, y: 155, width: 275, height: 42, rotation: 0 },
+                    { type: "water", x: -59, y: -94, width: 292, height: 240, rotation: 128.13000769178575 },
+                    
+                    // Walls and obstacles
+                    { type: "wall", x: 725, y: 160, width: 11, height: 203, rotation: -53.46404566396268 },
+                    { type: "wall", x: 507, y: 196, width: 146, height: 11, rotation: 0 },
+                    { type: "wall", x: 506, y: 154, width: 10, height: 53, rotation: 0 },
+                    { type: "wall", x: 307, y: 154, width: 209, height: 10, rotation: 0 },
+                    { type: "wall", x: 527, y: -56, width: 118, height: 110, rotation: 128.99099404250546 },
+                    { type: "wall", x: 459, y: 177, width: 58, height: 10, rotation: -135 }
+                ]
+            },
+            {
+                name: "Hole 4",
                 ballPosition: { x: 91, y: 201 },
                 holePosition: { x: 750, y: 200 },
                 walls: [
@@ -34,22 +221,7 @@ const PREMADE_COURSES = {
                 ]
             },
             {
-                name: "Hole 2",
-                ballPosition: { x: 88, y: 75 },
-                holePosition: { x: 718, y: 67 },
-                walls: [
-                    { type: 'wall', x: 127, y: 12, width: 11, height: 265, rotation: 0 },
-                    { type: 'wall', x: 287, y: 200, width: 12, height: 187, rotation: -142.15182766164443 },
-                    { type: 'wall', x: 231, y: 375, width: 13, height: 13, rotation: 0 },
-                    { type: 'sand', x: 12, y: 364, width: 222, height: 24, rotation: 0 },
-                    { type: 'tallGrass', x: 134, y: 11, width: 377, height: 108, rotation: 0 },
-                    { type: 'wall', x: 322, y: 120, width: 189, height: 12, rotation: 0 },
-                    { type: 'water', x: 366, y: 221, width: 422, height: 167, rotation: 0 },
-                    { type: 'wall', x: 356, y: 204, width: 14, height: 185, rotation: 0 }
-                ]
-            },
-            {
-                name: "Hole 3",
+                name: "Hole 5",
                 ballPosition: { x: 48, y: 289 },
                 holePosition: { x: 664, y: 270 },
                 walls: [
@@ -61,160 +233,6 @@ const PREMADE_COURSES = {
                     { type: 'water', x: 618, y: 321, width: 170, height: 68, rotation: 0 },
                     { type: 'water', x: 717, y: 209, width: 73, height: 127, rotation: 0 },
                     { type: 'wall', x: 507, y: 45, width: 283, height: 12, rotation: 16.891695744674493 }
-                ]
-            }
-        ]
-    },
-    intermediate: {
-        name: "Intermediate Course",
-        holes: 5,
-        courses: [
-            {
-                name: "Hole 1",
-                ballPosition: { x: 324, y: 304 },   
-                holePosition: { x: 692, y: 95 },
-                walls: [
-                    { type: "wall", x: 542, y: 32, width: 184, height: 13, rotation: -165.5559642755078 },
-                    { type: "wall", x: 747, y: 56, width: 14, height: 176, rotation: -18.621579366487577 },
-                    { type: "sand", x: 424, y: 215, width: 364, height: 174, rotation: 0 },
-                    { type: "wall", x: 409, y: 214, width: 14, height: 175, rotation: 0 },
-                    { type: "tallGrass", x: 11, y: 11, width: 261, height: 140, rotation: 0 },
-                    { type: "wall", x: 273, y: 10, width: 125, height: 174, rotation: 0 }
-                ]
-            },
-            {
-                name: "Hole 2",
-                ballPosition: { x: 50, y: 150 },
-                holePosition: { x: 750, y: 250 },
-                walls: [
-                    { type: 'wall', x: 200, y: 100, width: 20, height: 200, rotation: 0 },
-                    { type: 'wall', x: 400, y: 100, width: 20, height: 200, rotation: 0 },
-                    { type: 'wall', x: 600, y: 100, width: 20, height: 200, rotation: 0 },
-                    { type: 'sand', x: 300, y: 150, width: 80, height: 100, rotation: 0 },
-                    { type: 'tallGrass', x: 500, y: 150, width: 80, height: 100, rotation: 0 }
-                ]
-            },
-            {
-                name: "Hole 3",
-                ballPosition: { x: 50, y: 200 },
-                holePosition: { x: 750, y: 200 },
-                walls: [
-                    { type: 'wall', x: 300, y: 150, width: 20, height: 100, rotation: 45 },
-                    { type: 'water', x: 400, y: 150, width: 100, height: 100, rotation: 0 },
-                    { type: 'ice', x: 550, y: 180, width: 60, height: 40, rotation: 0 }
-                ]
-            },
-            {
-                name: "Hole 4",
-                ballPosition: { x: 50, y: 100 },
-                holePosition: { x: 750, y: 300 },
-                walls: [
-                    { type: 'wall', x: 200, y: 50, width: 20, height: 300, rotation: 0 },
-                    { type: 'wall', x: 400, y: 50, width: 20, height: 300, rotation: 0 },
-                    { type: 'wall', x: 600, y: 50, width: 20, height: 300, rotation: 0 },
-                    { type: 'sand', x: 250, y: 150, width: 120, height: 100, rotation: 0 },
-                    { type: 'tallGrass', x: 450, y: 150, width: 120, height: 100, rotation: 0 }
-                ]
-            },
-            {
-                name: "Hole 5",
-                ballPosition: { x: 50, y: 200 },
-                holePosition: { x: 750, y: 200 },
-                walls: [
-                    { type: 'wall', x: 250, y: 100, width: 20, height: 200, rotation: 0 },
-                    { type: 'wall', x: 450, y: 100, width: 20, height: 200, rotation: 0 },
-                    { type: 'water', x: 350, y: 150, width: 80, height: 100, rotation: 0 },
-                    { type: 'ice', x: 550, y: 180, width: 60, height: 40, rotation: 0 },
-                    { type: 'sand', x: 650, y: 150, width: 60, height: 100, rotation: 0 }
-                ]
-            }
-        ]
-    },
-    advanced: {
-        name: "Advanced Course",
-        holes: 7,
-        courses: [
-            {
-                name: "Hole 1",
-                ballPosition: { x: 50, y: 200 },
-                holePosition: { x: 750, y: 200 },
-                walls: [
-                    { type: 'wall', x: 200, y: 150, width: 20, height: 100, rotation: 0 },
-                    { type: 'wall', x: 400, y: 150, width: 20, height: 100, rotation: 0 },
-                    { type: 'wall', x: 600, y: 150, width: 20, height: 100, rotation: 0 },
-                    { type: 'water', x: 300, y: 180, width: 80, height: 40, rotation: 0 },
-                    { type: 'sand', x: 500, y: 180, width: 80, height: 40, rotation: 0 }
-                ]
-            },
-            {
-                name: "Hole 2",
-                ballPosition: { x: 50, y: 100 },
-                holePosition: { x: 750, y: 300 },
-                walls: [
-                    { type: 'wall', x: 250, y: 50, width: 20, height: 300, rotation: 0 },
-                    { type: 'wall', x: 450, y: 50, width: 20, height: 300, rotation: 0 },
-                    { type: 'water', x: 350, y: 150, width: 80, height: 100, rotation: 0 },
-                    { type: 'ice', x: 550, y: 200, width: 60, height: 40, rotation: 0 }
-                ]
-            },
-            {
-                name: "Hole 3",
-                ballPosition: { x: 50, y: 200 },
-                holePosition: { x: 750, y: 200 },
-                walls: [
-                    { type: 'wall', x: 300, y: 150, width: 20, height: 100, rotation: 30 },
-                    { type: 'wall', x: 500, y: 150, width: 20, height: 100, rotation: -30 },
-                    { type: 'water', x: 400, y: 150, width: 80, height: 100, rotation: 0 },
-                    { type: 'sand', x: 600, y: 180, width: 60, height: 40, rotation: 0 }
-                ]
-            },
-            {
-                name: "Hole 4",
-                ballPosition: { x: 50, y: 150 },
-                holePosition: { x: 750, y: 250 },
-                walls: [
-                    { type: 'wall', x: 200, y: 100, width: 20, height: 200, rotation: 0 },
-                    { type: 'wall', x: 400, y: 100, width: 20, height: 200, rotation: 0 },
-                    { type: 'wall', x: 600, y: 100, width: 20, height: 200, rotation: 0 },
-                    { type: 'tallGrass', x: 300, y: 150, width: 80, height: 100, rotation: 0 },
-                    { type: 'ice', x: 500, y: 150, width: 80, height: 100, rotation: 0 }
-                ]
-            },
-            {
-                name: "Hole 5",
-                ballPosition: { x: 50, y: 200 },
-                holePosition: { x: 750, y: 200 },
-                walls: [
-                    { type: 'wall', x: 250, y: 150, width: 20, height: 100, rotation: 45 },
-                    { type: 'wall', x: 450, y: 150, width: 20, height: 100, rotation: -45 },
-                    { type: 'water', x: 350, y: 150, width: 80, height: 100, rotation: 0 },
-                    { type: 'sand', x: 550, y: 180, width: 60, height: 40, rotation: 0 }
-                ]
-            },
-            {
-                name: "Hole 6",
-                ballPosition: { x: 50, y: 100 },
-                holePosition: { x: 750, y: 300 },
-                walls: [
-                    { type: 'wall', x: 200, y: 50, width: 20, height: 300, rotation: 0 },
-                    { type: 'wall', x: 400, y: 50, width: 20, height: 300, rotation: 0 },
-                    { type: 'wall', x: 600, y: 50, width: 20, height: 300, rotation: 0 },
-                    { type: 'water', x: 300, y: 150, width: 80, height: 100, rotation: 0 },
-                    { type: 'tallGrass', x: 500, y: 150, width: 80, height: 100, rotation: 0 },
-                    { type: 'ice', x: 650, y: 200, width: 60, height: 40, rotation: 0 }
-                ]
-            },
-            {
-                name: "Hole 7",
-                ballPosition: { x: 50, y: 200 },
-                holePosition: { x: 750, y: 200 },
-                walls: [
-                    { type: 'wall', x: 200, y: 150, width: 20, height: 100, rotation: 0 },
-                    { type: 'wall', x: 400, y: 150, width: 20, height: 100, rotation: 0 },
-                    { type: 'wall', x: 600, y: 150, width: 20, height: 100, rotation: 0 },
-                    { type: 'water', x: 300, y: 180, width: 80, height: 40, rotation: 0 },
-                    { type: 'sand', x: 500, y: 180, width: 80, height: 40, rotation: 0 },
-                    { type: 'tallGrass', x: 650, y: 150, width: 60, height: 100, rotation: 0 }
                 ]
             }
         ]
@@ -633,26 +651,15 @@ class Sand {
             ctx.translate(centerX, centerY);
             ctx.rotate(this.rotation * Math.PI / 180);
             
-            // Create gradient for sand effect
-            const gradient = ctx.createLinearGradient(-this.width / 2, -this.height / 2, this.width / 2, this.height / 2);
-            gradient.addColorStop(0, '#F4D03F');
-            gradient.addColorStop(0.5, '#F7DC6F');
-            gradient.addColorStop(1, '#F8C471');
-            
-            // Draw rectangle centered at origin
-            ctx.fillStyle = gradient;
+            // Draw rectangle centered at origin with solid color
+            ctx.fillStyle = '#F4D03F';
             ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
             
             // Restore context state
             ctx.restore();
         } else {
-            // Create gradient for sand effect
-            const gradient = ctx.createLinearGradient(this.x, this.y, this.x + this.width, this.y + this.height);
-            gradient.addColorStop(0, '#F4D03F');
-            gradient.addColorStop(0.5, '#F7DC6F');
-            gradient.addColorStop(1, '#F8C471');
-            
-            ctx.fillStyle = gradient;
+            // Draw with solid color
+            ctx.fillStyle = '#F4D03F';
             ctx.fillRect(this.x, this.y, this.width, this.height);
         }
     }
@@ -802,26 +809,15 @@ class TallGrass {
             ctx.translate(centerX, centerY);
             ctx.rotate(this.rotation * Math.PI / 180);
             
-            // Create gradient for tall grass effect
-            const gradient = ctx.createLinearGradient(-this.width / 2, -this.height / 2, this.width / 2, this.height / 2);
-            gradient.addColorStop(0, '#2E8B57');
-            gradient.addColorStop(0.5, '#3CB371');
-            gradient.addColorStop(1, '#228B22');
-            
-            // Draw rectangle centered at origin
-            ctx.fillStyle = gradient;
+            // Draw rectangle centered at origin with solid color
+            ctx.fillStyle = '#2E8B57';
             ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
             
             // Restore context state
             ctx.restore();
         } else {
-            // Create gradient for tall grass effect
-            const gradient = ctx.createLinearGradient(this.x, this.y, this.x + this.width, this.y + this.height);
-            gradient.addColorStop(0, '#2E8B57');
-            gradient.addColorStop(0.5, '#3CB371');
-            gradient.addColorStop(1, '#228B22');
-            
-            ctx.fillStyle = gradient;
+            // Draw with solid color
+            ctx.fillStyle = '#2E8B57';
             ctx.fillRect(this.x, this.y, this.width, this.height);
         }
     }
@@ -971,26 +967,15 @@ class Water {
             ctx.translate(centerX, centerY);
             ctx.rotate(this.rotation * Math.PI / 180);
             
-            // Create gradient for water effect
-            const gradient = ctx.createLinearGradient(-this.width / 2, -this.height / 2, this.width / 2, this.height / 2);
-            gradient.addColorStop(0, '#1E90FF');
-            gradient.addColorStop(0.5, '#00BFFF');
-            gradient.addColorStop(1, '#87CEEB');
-            
-            // Draw rectangle centered at origin
-            ctx.fillStyle = gradient;
+            // Draw rectangle centered at origin with solid color
+            ctx.fillStyle = '#1E90FF';
             ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
             
             // Restore context state
             ctx.restore();
         } else {
-            // Create gradient for water effect
-            const gradient = ctx.createLinearGradient(this.x, this.y, this.x + this.width, this.y + this.height);
-            gradient.addColorStop(0, '#1E90FF');
-            gradient.addColorStop(0.5, '#00BFFF');
-            gradient.addColorStop(1, '#87CEEB');
-            
-            ctx.fillStyle = gradient;
+            // Draw with solid color
+            ctx.fillStyle = '#1E90FF';
             ctx.fillRect(this.x, this.y, this.width, this.height);
         }
     }
@@ -1140,55 +1125,40 @@ class Ice {
             ctx.translate(centerX, centerY);
             ctx.rotate(this.rotation * Math.PI / 180);
             
-            // Create gradient for ice effect
-            const gradient = ctx.createLinearGradient(-this.width / 2, -this.height / 2, this.width / 2, this.height / 2);
-            gradient.addColorStop(0, '#E0F6FF');
-            gradient.addColorStop(0.5, '#B0E0E6');
-            gradient.addColorStop(1, '#87CEEB');
-            
-            // Draw rectangle centered at origin
-            ctx.fillStyle = gradient;
+            // Draw rectangle centered at origin with solid color
+            ctx.fillStyle = '#E0F6FF';
             ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
             
-            // Add some sparkle effects for ice
+            // Add minimal sparkle effects for ice (reduced from 3 to 1)
             ctx.strokeStyle = '#FFFFFF';
             ctx.lineWidth = 1;
-            for (let i = 0; i < 3; i++) {
-                const sparkleX = (Math.random() - 0.5) * this.width * 0.8;
-                const sparkleY = (Math.random() - 0.5) * this.height * 0.8;
-                ctx.beginPath();
-                ctx.moveTo(sparkleX - 3, sparkleY);
-                ctx.lineTo(sparkleX + 3, sparkleY);
-                ctx.moveTo(sparkleX, sparkleY - 3);
-                ctx.lineTo(sparkleX, sparkleY + 3);
-                ctx.stroke();
-            }
+            const sparkleX = (Math.random() - 0.5) * this.width * 0.6;
+            const sparkleY = (Math.random() - 0.5) * this.height * 0.6;
+            ctx.beginPath();
+            ctx.moveTo(sparkleX - 2, sparkleY);
+            ctx.lineTo(sparkleX + 2, sparkleY);
+            ctx.moveTo(sparkleX, sparkleY - 2);
+            ctx.lineTo(sparkleX, sparkleY + 2);
+            ctx.stroke();
             
             // Restore context state
             ctx.restore();
         } else {
-            // Create gradient for ice effect
-            const gradient = ctx.createLinearGradient(this.x, this.y, this.x + this.width, this.y + this.height);
-            gradient.addColorStop(0, '#E0F6FF');
-            gradient.addColorStop(0.5, '#B0E0E6');
-            gradient.addColorStop(1, '#87CEEB');
-            
-            ctx.fillStyle = gradient;
+            // Draw with solid color
+            ctx.fillStyle = '#E0F6FF';
             ctx.fillRect(this.x, this.y, this.width, this.height);
             
-            // Add some sparkle effects for ice
+            // Add minimal sparkle effects for ice (reduced from 3 to 1)
             ctx.strokeStyle = '#FFFFFF';
             ctx.lineWidth = 1;
-            for (let i = 0; i < 3; i++) {
-                const sparkleX = this.x + Math.random() * this.width;
-                const sparkleY = this.y + Math.random() * this.height;
-                ctx.beginPath();
-                ctx.moveTo(sparkleX - 3, sparkleY);
-                ctx.lineTo(sparkleX + 3, sparkleY);
-                ctx.moveTo(sparkleX, sparkleY - 3);
-                ctx.lineTo(sparkleX, sparkleY + 3);
-                ctx.stroke();
-            }
+            const sparkleX = this.x + Math.random() * this.width;
+            const sparkleY = this.y + Math.random() * this.height;
+            ctx.beginPath();
+            ctx.moveTo(sparkleX - 2, sparkleY);
+            ctx.lineTo(sparkleX + 2, sparkleY);
+            ctx.moveTo(sparkleX, sparkleY - 2);
+            ctx.lineTo(sparkleX, sparkleY + 2);
+            ctx.stroke();
         }
     }
 
@@ -2254,7 +2224,7 @@ class GolfGame {
         let winnerText = '';
         if (this.gameMode === 'premade' && this.playerMode === 'single') {
             // Single player mode - just show completion
-            winnerText = `Course Complete! Final Score: ${this.player1Score}`;
+            winnerText = `Course Complete!`;
         } else if (this.player1Score < this.player2Score) {
             winnerText = 'Blue wins! 🏆';
         } else if (this.player2Score < this.player1Score) {

@@ -1,8 +1,6 @@
 
 FUTURE IMPROVEMENTS
 
-Expandable score sheet with all hole scores
-
 Slope ground (might be easier to thing about this like a speed boost in one direction that an actual ramp)
 
 Different shaped course

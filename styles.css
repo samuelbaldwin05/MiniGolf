@@ -48,6 +48,13 @@
     --arrow-color: #FFD700;
     --trail-color: rgba(255, 215, 0, 0.3);
     
+    /* Surface colors */
+    --sand-color: #F4D03F;
+    --tall-grass-color: #2E8B57;
+    --water-color: #1E90FF;
+    --ice-color: #E0F6FF;
+    --ice-sparkle-color: #FFFFFF;
+    
     /* Start Screen Colors */
     --start-screen-bg: var(--primary-bg);
     --start-content-bg: var(--board-bg);

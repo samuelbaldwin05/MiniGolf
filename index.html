@@ -55,8 +55,7 @@
                     <label for="course-select">Select Course:</label>
                     <select id="course-select" class="setting-select">
                         <option value="beginner">Beginner (3 holes)</option>
-                        <option value="intermediate">Intermediate (5 holes)</option>
-                        <option value="advanced">Advanced (7 holes)</option>
+                        <option value="advanced">Advanced (5 holes)</option>
                     </select>
                 </div>
                 <div class="setting-item">
@@ -194,27 +193,16 @@
                     <li>Click anywhere to place walls</li>
                     <li>Click the hole to move it to a new position</li>
                     <li>Click the ball to move the starting position</li>
-                    <li>Walls can block the ball's path</li>
                 </ul>
             </div>
 
             <div class="rules-section">
                 <h3>⛳ Play Phase</h3>
                 <ul>
+                    <li>Player who made the hole shoots first</li>
                     <li>Click and drag the ball to shoot</li>
-                    <li>Arrow shows direction and power</li>
-                    <li>Ball bounces off walls and boundaries</li>
                     <li>Get the ball in the hole to complete the hole</li>
-                    <li>Count your shots - lower is better!</li>
-                </ul>
-            </div>
-
-            <div class="rules-section">
-                <h3>🏆 Scoring</h3>
-                <ul>
-                    <li>Each shot counts as 1 point</li>
-                    <li>Player with lowest total score wins</li>
-                    <li>If tied, it's a draw!</li>
+                    <li>If the whole is impossible, restart it in settings</li>
                 </ul>
             </div>
 
@@ -263,7 +251,7 @@
             </div>
 
             <div class="settings-buttons">
-                <button class="btn action-btn" id="close-settings-btn">Save Settings</button>
+                <button class="btn action-btn" id="close-settings-btn">Save</button>
                 <button class="btn action-btn exit-btn" id="face-off-exit-btn" style="display: none;">Exit to Menu</button>
                 <button class="btn action-btn exit-btn" id="courses-exit-btn" style="display: none;">Exit to Menu</button>
             </div>
