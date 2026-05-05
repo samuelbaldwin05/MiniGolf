@@ -2,7 +2,7 @@ import type { Course, CourseId } from '../core/types';
 
 export const PREMADE_COURSES: Record<CourseId, Course> = {
   test: {
-    name: 'Test Course',
+    name: 'Bonus Course',
     holes: 2,
     courses: [
       {

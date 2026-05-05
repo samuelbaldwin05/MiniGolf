@@ -80,21 +80,18 @@ export class SettingsModal {
     const faceExit = document.getElementById('face-off-exit-btn');
     const coursesExit = document.getElementById('courses-exit-btn');
     const restartBtn = document.getElementById('restart-round-btn');
-    const rulesBtn = document.getElementById('show-rules-btn');
     if (mode === 'premade') {
       if (faceOff) faceOff.style.display = 'none';
       if (courses) courses.style.display = 'block';
       if (faceExit) faceExit.style.display = 'none';
       if (coursesExit) coursesExit.style.display = 'block';
       if (restartBtn) restartBtn.style.display = 'none';
-      if (rulesBtn) rulesBtn.style.display = 'none';
     } else {
       if (faceOff) faceOff.style.display = 'block';
       if (courses) courses.style.display = 'none';
       if (faceExit) faceExit.style.display = 'block';
       if (coursesExit) coursesExit.style.display = 'none';
       if (restartBtn) restartBtn.style.display = 'block';
-      if (rulesBtn) rulesBtn.style.display = 'block';
     }
   }
 }
