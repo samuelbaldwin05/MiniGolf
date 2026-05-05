@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Putt Duel</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛳</text></svg>">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Start Screen -->
+    <div id="start-screen" class="start-screen flex-center">
+        <div class="start-content">
+            <h1>Putt Duel</h1>
+            
+            <!-- Game Mode Selection -->
+            <div class="game-mode-selection">
+                <h3>Select Game Mode:</h3>
+                <div class="mode-options">
+                    <div class="mode-option active" id="custom-mode">
+                        <div class="mode-icon">⚔️</div>
+                        <div class="mode-info">
+                            <h4>Face Off</h4>
+                            <p>Design courses and battle!</p>
+                        </div>
+                    </div>
+                    <div class="mode-option" id="premade-mode">
+                        <div class="mode-icon">🚩</div>
+                        <div class="mode-info">
+                            <h4>Courses</h4>
+                            <p>Play pre-designed courses</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Custom Mode Settings (shown by default) -->
+            <div id="custom-settings" class="settings-panel">
+                <div class="setting-item">
+                    <label for="hole-count">Number of Holes:</label>
+                    <input type="number" id="hole-count" class="setting-input" min="1" max="18" value="3">
+                </div>
+                <div class="setting-item">
+                    <label for="timer-toggle">Timer:</label>
+                    <div class="timer-controls">
+                        <input type="checkbox" id="timer-toggle" class="setting-checkbox">
+                        <input type="number" id="timer-seconds" class="setting-input timer-input" min="5" max="300" step="15" value="30">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Premade Mode Settings (hidden by default) -->
+            <div id="premade-settings" class="settings-panel" style="display: none;">
+                <div class="setting-item">
+                    <label for="course-select">Select Course:</label>
+                    <select id="course-select" class="setting-select">
+                        <option value="test">Test Course</option>
+                        <option value="beginner">Beginner (3 holes)</option>
+                        <option value="advanced">Advanced (5 holes)</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label for="player-mode">Player Mode:</label>
+                    <select id="player-mode" class="setting-select">
+                        <option value="single" selected>Single Player</option>
+                        <option value="multiplayer">Multiplayer</option>
+                    </select>
+                </div>
+            </div>
+            
+            <button class="btn action-btn" id="start-game-btn">Start Game</button>
+        </div>
+    </div>
+
+    <div class="simple-container">
+        <!-- Game Screen -->
+        <div id="game-screen" class="game-screen" style="display: none;">
+            <div class="game-area flex flex-gap-lg" style="padding: 20px;">
+                <div class="board-container flex-center">
+                    <canvas id="game-canvas" width="800" height="400"></canvas>
+                </div>
+                
+                <div class="sidebar flex-column flex-gap-lg">
+                    <!-- Score Sheet -->
+                    <div class="panel score-sheet">
+                        <h3>Score Sheet</h3>
+                        <div class="score-table">
+                            <div class="score-header">
+                                <span class="hole-label">Hole <span id="current-hole">1</span></span>
+                                <span class="hole-label">Score</span>
+                                <span class="total-label">Total</span>
+                            </div>
+                            <div class="score-row">
+                                <span class="player-label player1-color">Blue</span>
+                                <span class="hole-score" id="player1-hole-score">0</span>
+                                <span class="total-score" id="player1-total-score">0</span>
+                            </div>
+                            <div class="score-row">
+                                <span class="player-label player2-color">Red</span>
+                                <span class="hole-score" id="player2-hole-score">0</span>
+                                <span class="total-score" id="player2-total-score">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="game-buttons flex-column flex-gap-md">
+                        <button class="btn action-btn" id="show-rules-btn">Rules</button>
+                        <button class="btn action-btn" id="show-settings-btn">Settings</button>
+                    </div>
+                    
+                    <div class="message-display" id="message">
+                        Welcome to Golf Game!
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Build Mode Panel -->
+            <div id="build-mode-panel" class="build-mode-panel" style="display: none;">
+                <div class="build-mode-header">
+                    <div class="build-timer" id="build-timer" style="display: none;">
+                        <span>Build Time: </span>
+                        <span id="timer-display">30</span>
+                    </div>
+                    <div class="building-types">
+                        <div class="building-options">
+                            <div class="building-option active" id="wall-option" data-type="wall">
+                                <div class="building-preview wall-preview"></div>
+                                <span>Wall</span>
+                            </div>
+                            <div class="building-option" id="sand-option" data-type="sand">
+                                <div class="building-preview sand-preview"></div>
+                                <span>Sand</span>
+                            </div>
+                            <div class="building-option" id="tall-grass-option" data-type="tallGrass">
+                                <div class="building-preview tall-grass-preview"></div>
+                                <span>Rough</span>
+                            </div>
+                            <div class="building-option" id="water-option" data-type="water">
+                                <div class="building-preview water-preview"></div>
+                                <span>Water</span>
+                            </div>
+                            <div class="building-option" id="ice-option" data-type="ice">
+                                <div class="building-preview ice-preview"></div>
+                                <span>Ice</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="build-controls">
+                        <button class="btn action-btn" id="undo-btn">Undo</button>
+                        <button class="btn action-btn delete-btn" id="delete-btn">Delete</button>
+                        <button class="btn action-btn done-building-btn" id="done-building-btn">Done</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Win Screen -->
+        <div id="win-screen" class="win-screen flex-center" style="display: none;">
+            <div class="win-content">
+                <h2 id="winner-title">Round Over!</h2>
+                <div class="final-scores">
+                    <div class="final-score">
+                        <span class="player-label player1-color">Blue:</span>
+                        <span class="score-number" id="final-player1-score">0</span>
+                    </div>
+                    <div class="final-score">
+                        <span class="player-label player2-color">Red:</span>
+                        <span class="score-number" id="final-player2-score">0</span>
+                    </div>
+                </div>
+                <div id="winner-message" class="winner-message">
+                    <h3 id="winner-text">It's a tie!</h3>
+                </div>
+                <button class="btn action-btn" id="play-again-btn">Play Again</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rules Modal -->
+    <div id="rules-modal" class="modal flex-center" style="display: none;">
+        <div class="modal-content">
+            <span class="close-btn" id="close-rules">&times;</span>
+            <h2>🏌️ Golf Game Rules</h2>
+            
+            <div class="rules-section">
+                <h3>🎯 Objective</h3>
+                <p>Complete all holes with the lowest total score. Players take turns designing and playing holes.</p>
+            </div>
+
+            <div class="rules-section">
+                <h3>🎨 Design Phase</h3>
+                <ul>
+                    <li>Each player designs a hole for the other to play</li>
+                    <li>Click anywhere to place walls</li>
+                    <li>Click the hole to move it to a new position</li>
+                    <li>Click the ball to move the starting position</li>
+                </ul>
+            </div>
+
+            <div class="rules-section">
+                <h3>⛳ Play Phase</h3>
+                <ul>
+                    <li>Player who made the hole shoots first</li>
+                    <li>Click and drag the ball to shoot</li>
+                    <li>Get the ball in the hole to complete the hole</li>
+                    <li>If the whole is impossible, restart it in settings</li>
+                </ul>
+            </div>
+
+            <button class="btn action-btn" id="close-rules-btn">Got it!</button>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal flex-center" style="display: none;">
+        <div class="modal-content">
+            <span class="close-btn" id="close-settings">&times;</span>
+            <h2>⚙️ Settings</h2>
+            
+            <!-- Face Off Mode Settings -->
+            <div id="face-off-settings">
+                <div class="settings-section">
+                    <h3>🔊 Sound Settings</h3>
+                    <div class="sound-control">
+                        <label for="sound-volume">Sound Volume:</label>
+                        <input type="range" id="sound-volume" class="volume-slider" min="0" max="100" value="70">
+                        <span id="volume-display">70%</span>
+                    </div>
+                </div>
+
+
+                <div class="settings-section">
+                    <h3>🔄 Restart Current Hole</h3>
+                    <p>Impossible or bad hole? Restart to build phase and try again!</p>
+                    <button class="btn action-btn" id="restart-round-btn">Restart Round</button>
+                </div>
+
+            </div>
+
+            <!-- Courses Mode Settings -->
+            <div id="courses-settings" style="display: none;">
+                <div class="settings-section">
+                    <h3>🔊 Sound Settings</h3>
+                    <div class="sound-control">
+                        <label for="sound-volume-courses">Sound Volume:</label>
+                        <input type="range" id="sound-volume-courses" class="volume-slider" min="0" max="100" value="70">
+                        <span id="volume-display-courses">70%</span>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="settings-buttons">
+                <button class="btn action-btn" id="close-settings-btn">Save</button>
+                <button class="btn action-btn exit-btn" id="face-off-exit-btn" style="display: none;">Exit to Menu</button>
+                <button class="btn action-btn exit-btn" id="courses-exit-btn" style="display: none;">Exit to Menu</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Initialize the game when the page loads -->
+    <script src="golf.js"></script>
+    
+    <!-- Audio elements for game sounds -->
+    <audio id="ball-hit-sound" preload="auto">
+        <source src="static/sounds/puttnew.mp3" type="audio/mpeg">
+    </audio>
+    
+    <audio id="water-splash-sound" preload="auto">
+        <source src="static/sounds/water.mp3" type="audio/mpeg">
+    </audio>
+    
+    <audio id="hole-success-sound" preload="auto">
+        <source src="static/sounds/hole.mp3" type="audio/mpeg">
+    </audio>
+    
+    <audio id="button-click-sound" preload="auto">
+        <source src="static/sounds/clack.mp3" type="audio/mpeg">
+    </audio>
+</body>
+</html> 
