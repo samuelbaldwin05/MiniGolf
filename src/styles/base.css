@@ -53,10 +53,10 @@ body {
 .simple-container {
     max-width: 1200px;
     margin: 0 auto;
-    background: var(--secondary-bg);
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    min-height: 80vh;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .flex { display: flex; }

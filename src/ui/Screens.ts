@@ -6,9 +6,9 @@ export class Screens {
   private win = document.getElementById('win-screen');
 
   show(name: ScreenName): void {
-    if (this.start) this.start.style.display = name === 'start' ? 'block' : 'none';
+    if (this.start) this.start.style.display = name === 'start' ? 'flex' : 'none';
     if (this.game) this.game.style.display = name === 'game' ? 'block' : 'none';
-    if (this.win) this.win.style.display = name === 'win' ? 'block' : 'none';
+    if (this.win) this.win.style.display = name === 'win' ? 'flex' : 'none';
   }
 
   setBuildPanelVisible(visible: boolean): void {

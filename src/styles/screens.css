@@ -13,7 +13,7 @@
     background-repeat: no-repeat;
     padding: 40px;
     border-radius: var(--border-radius);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 3px solid #3d6324;
     text-align: center;
     max-width: 700px;
     width: 90%;
@@ -203,11 +203,6 @@
 }
 
 .game-buttons { margin-top: auto; }
-
-.win-screen {
-    min-height: 80vh;
-    background: var(--secondary-bg);
-}
 
 .win-content {
     text-align: center;
