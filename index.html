@@ -50,9 +50,9 @@
                 <div class="setting-item">
                     <label for="course-select">Select Course:</label>
                     <select id="course-select" class="setting-select">
-                        <option value="test">Test Course</option>
-                        <option value="beginner">Beginner (3 holes)</option>
+                        <option value="beginner" selected>Beginner (3 holes)</option>
                         <option value="advanced">Advanced (5 holes)</option>
+                        <option value="test">Bonus Course</option>
                     </select>
                 </div>
                 <div class="setting-item">
@@ -236,16 +236,16 @@
     </div>
 
     <audio id="ball-hit-sound" preload="auto">
-        <source src="/sounds/puttnew.mp3" type="audio/mpeg">
+        <source src="./sounds/putt.mp3" type="audio/mpeg">
     </audio>
     <audio id="water-splash-sound" preload="auto">
-        <source src="/sounds/water.mp3" type="audio/mpeg">
+        <source src="./sounds/water.mp3" type="audio/mpeg">
     </audio>
     <audio id="hole-success-sound" preload="auto">
-        <source src="/sounds/hole.mp3" type="audio/mpeg">
+        <source src="./sounds/hole.mp3" type="audio/mpeg">
     </audio>
     <audio id="button-click-sound" preload="auto">
-        <source src="/sounds/clack.mp3" type="audio/mpeg">
+        <source src="./sounds/clack.mp3" type="audio/mpeg">
     </audio>
 
     <script type="module" src="/src/main.ts"></script>
