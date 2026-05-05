@@ -246,11 +246,12 @@ export class Game {
       this.holeAdvanceScheduled = false;
 
       this.screens.show('game');
+      this.applyRulesButtonVisibility();
       this.beginDesignPhase();
     } else {
       const courseSel = document.getElementById('course-select') as HTMLSelectElement | null;
       const playerModeSel = document.getElementById('player-mode') as HTMLSelectElement | null;
-      this.courseId = (courseSel?.value as CourseId) || 'test';
+      this.courseId = (courseSel?.value as CourseId) || 'beginner';
       this.playerMode = (playerModeSel?.value as PlayerMode) || 'single';
       const course = PREMADE_COURSES[this.courseId];
       this.progression.reset(course.holes);
@@ -259,9 +260,15 @@ export class Game {
       this.holeAdvanceScheduled = false;
 
       this.screens.show('game');
+      this.applyRulesButtonVisibility();
       this.loadPremadeHole();
       this.beginPlayPhase();
     }
+  }
+
+  private applyRulesButtonVisibility(): void {
+    const rulesBtn = document.getElementById('show-rules-btn');
+    if (rulesBtn) rulesBtn.style.display = this.gameMode === 'custom' ? '' : 'none';
   }
 
   // ---------- Phase transitions ----------
@@ -389,14 +396,20 @@ export class Game {
     this.buildTimer.stop();
     const p1 = this.turn.player1Score;
     const p2 = this.turn.player2Score;
+    const isSinglePlayer = this.gameMode === 'premade' && this.playerMode === 'single';
+
     const finalP1 = document.getElementById('final-player1-score');
     const finalP2 = document.getElementById('final-player2-score');
     if (finalP1) finalP1.textContent = String(p1);
     if (finalP2) finalP2.textContent = String(p2);
+
+    const player2Row = finalP2?.parentElement;
+    if (player2Row) player2Row.style.display = isSinglePlayer ? 'none' : '';
+
     const winnerText = document.getElementById('winner-text');
     if (winnerText) {
-      if (this.gameMode === 'premade' && this.playerMode === 'single') {
-        winnerText.textContent = `You finished in ${p1} strokes!`;
+      if (isSinglePlayer) {
+        winnerText.textContent = 'Course Completed!';
       } else if (p1 < p2) winnerText.textContent = 'Blue wins!';
       else if (p2 < p1) winnerText.textContent = 'Red wins!';
       else winnerText.textContent = "It's a tie!";
@@ -623,28 +636,21 @@ export class Game {
 
   // ---------- Physics: per-step collision resolution ----------
   private resolveCollisionsThisStep(): void {
-    // Detect terrain (non-wall) the ball is currently on for friction
-    let onIce = false, onSand = false, onTallGrass = false, onWater = false;
-    let waterContact: Building | null = null;
+    // Friction is determined by the single topmost terrain (highest zIndex)
+    // the ball is currently on — matching the visible surface.
+    const sortedTerrain = this.walls
+      .filter((b) => b.type !== 'wall')
+      .sort((a, b) => b.zIndex - a.zIndex);
 
-    // Process all buildings for collision
-    // Sort by zIndex desc so highest layer wins for water/terrain
-    const sortedAll = [...this.walls].sort((a, b) => b.zIndex - a.zIndex);
-    // Find topmost terrain at ball position (per-type)
-    const handledTopmost: Set<string> = new Set();
-    for (const b of sortedAll) {
-      if (b.type === 'wall') continue;
-      if (handledTopmost.has(b.type)) continue;
+    let topTerrainType: Building['type'] | null = null;
+    for (const b of sortedTerrain) {
       if (b.intersects(this.ball)) {
-        handledTopmost.add(b.type);
-        if (b.type === 'ice') onIce = true;
-        else if (b.type === 'sand') onSand = true;
-        else if (b.type === 'tallGrass') onTallGrass = true;
-        else if (b.type === 'water') { onWater = true; waterContact = b; }
+        topTerrainType = b.type;
+        break;
       }
     }
 
-    // Wall collisions (placed walls + boundary)
+    // Wall collisions (placed walls + boundary) — independent of terrain
     for (const w of this.walls) {
       if (w.type !== 'wall') continue;
       if (w.intersects(this.ball)) this.resolveWallCollision(w);
@@ -653,19 +659,12 @@ export class Game {
       if (w.intersects(this.ball)) this.resolveWallCollision(w);
     }
 
-    // Apply friction based on topmost terrain (priority: water > ice > sand > tallGrass > grass)
-    if (onWater) this.ball.currentFriction = WATER_FRICTION;
-    else if (onIce) this.ball.currentFriction = ICE_FRICTION;
-    else if (onSand) this.ball.currentFriction = SAND_FRICTION;
-    else if (onTallGrass) this.ball.currentFriction = TALL_GRASS_FRICTION;
-    else this.ball.currentFriction = FRICTION;
-
-    // Water splash on contact
-    if (onWater && waterContact && !this.ball.isInHole) {
-      // Check >50% overlap
-      // Approximation: if ball center is inside the (possibly rotated) rect's expanded area
-      // We'll handle the splash + return on stop check; here, just play sound once when entering
-      // (legacy plays on stop). We'll defer.
+    switch (topTerrainType) {
+      case 'water':     this.ball.currentFriction = WATER_FRICTION; break;
+      case 'ice':       this.ball.currentFriction = ICE_FRICTION; break;
+      case 'sand':      this.ball.currentFriction = SAND_FRICTION; break;
+      case 'tallGrass': this.ball.currentFriction = TALL_GRASS_FRICTION; break;
+      default:          this.ball.currentFriction = FRICTION;
     }
   }
 
@@ -757,27 +756,36 @@ export class Game {
 
   // ---------- Main loop ----------
   private prevTime = performance.now();
+  private accumulator = 0;
+  private static readonly FIXED_DT = 1000 / 60;
+  private static readonly MAX_FRAME_DT = 100;
 
   private loop(): void {
     const now = performance.now();
-    const dt = Math.min(50, now - this.prevTime);
+    const frameDt = Math.min(Game.MAX_FRAME_DT, now - this.prevTime);
     this.prevTime = now;
 
-    if (this.state.state === GAME_STATES.PLAY) {
-      if (this.ball.isMoving) {
-        const result = stepBall(this.ball, dt / 16.67, () => {
-          this.resolveCollisionsThisStep();
-          this.checkHole();
-        });
-        if (result.stoppedThisFrame) {
-          this.checkWaterStop();
-        }
-      }
+    this.accumulator += frameDt;
+    while (this.accumulator >= Game.FIXED_DT) {
+      this.fixedStep();
+      this.accumulator -= Game.FIXED_DT;
     }
 
-    this.confetti.update();
     this.draw();
     requestAnimationFrame(() => this.loop());
+  }
+
+  private fixedStep(): void {
+    if (this.state.state === GAME_STATES.PLAY && this.ball.isMoving) {
+      const result = stepBall(this.ball, Game.FIXED_DT, () => {
+        this.resolveCollisionsThisStep();
+        this.checkHole();
+      });
+      if (result.stoppedThisFrame) {
+        this.checkWaterStop();
+      }
+    }
+    this.confetti.update();
   }
 
   private draw(): void {
